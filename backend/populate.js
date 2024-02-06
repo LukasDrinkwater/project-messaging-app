@@ -1,14 +1,48 @@
+console.log(
+  'This script populates some test blogs, users, comments to your database. Specified database as argument - e.g.: node populatedb "mongodb+srv://cooluser:coolpassword@cluster0.lz91hw2.mongodb.net/local_library?retryWrites=true&w=majority"'
+);
+
+// Get arguments passed on command line
+const userArgs = process.argv.slice(2);
+
+const User = require("./models/Users");
+const Message = require("./models/Messages");
+const Group = require("./models/Groups");
+
+const users = [];
+const messages = [];
+const groups = [];
+
 const mongoose = require("mongoose");
-const Characters = require("./models/characters");
-const Users = require("./models/Users");
-const Messages = require("./models/Messages");
-const Groups = require("./models/Groups");
-require("dotenv").config();
+mongoose.set("strictQuery", false);
 
-const mongoDB = process.env.MONGODB_STRING;
+const mongoDB = userArgs[0];
 
-// Connect to mongo db
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+main().catch((err) => console.log(err));
+
+async function main() {
+  console.log("Debug: About to connect");
+
+  // removing any previous documents
+  // console.log("removing previous documents");
+  // await User.deleteMany({});
+  // await Message.deleteMany({});
+  // await Group.deleteMany({});
+  // console.log("previous documents removed");
+
+  await mongoose.connect(mongoDB);
+  console.log("Debug: Should be connected?");
+
+  await createUsers();
+  await createMessages();
+  await createGroups();
+  console.log("Debug: Closing mongoose");
+  mongoose.connection.close();
+}
+
+// We pass the index to the ...Create functions so that, for example,
+// genre[0] will always be the Fantasy genre, regardless of the order
+// in which the elements of promise.all's argument complete.
 
 // User Model fields
 // username: { type: String, unique: true, required: true },
@@ -16,54 +50,92 @@ mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 // email: { type: String, unique: true, required: true },
 // messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
 // Group:[{ type: mongoose.Schema.Types.ObjectId, ref: "Groups" }],
+async function userCreate(index, username, password, email, messages, group) {
+  const user = new User({
+    username: username,
+    password: password,
+    email: email,
+    messages: messages,
+    group: group,
+  });
+
+  await user.save();
+  users[index] = user;
+  console.log(`usermessage: ${username} ${email}`);
+}
 
 // Message model fields
 // sender: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 // receiver: {type: mongoose.Schema.Types.ObjectId, ref: "User",  required: false,},
 // group: {  type: mongoose.Schema.Types.ObjectId,  ref: "Group",  required: false,},
 // content: { type: String, required: true },},
+async function messageCreate(index, sender, receiver, group, content) {
+  const message = new Message({
+    sender: sender,
+    receiver: receiver,
+    group: group,
+    content: content,
+  });
+
+  await message.save();
+  messages[index] = message;
+  console.log(`Added message: ${sender} ${content}`);
+}
 
 // Group Model fields
 // {name: { type: String, required: true },
 //   members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 //   messages: [{ type: mongoose.Schema.Types.ObjectId, red: "Message" }],  },
 // { timestamps: true, toJSON: { virtuals: true } });
+async function groupCreate(index, name, members, messages) {
+  const group = new Group({
+    name: name,
+    members: members,
+    messages: messages,
+  });
 
-// Define the data to be inserted
-const userDataToInsert = [
-  {username: "testuser", password: "12345", email: "test@email.com", messages}
-  { character: "Waldo", found: false, pixelX: 882, pixelY: 974 },
-  { character: "Wenda", found: false, pixelX: 894, pixelY: 778 },
-  { character: "Wizzard", found: false, pixelX: 1342, pixelY: 988 },
-  { character: "Odlaw", found: false, pixelX: 1202, pixelY: 1222 },
-  // Add more documents as needed
-];
+  await group.save();
+  groups[index] = group;
+  console.log(`Added group: ${name} ${members}`);
+}
 
-const messageDataToInsert = [
-  {sender: userDataToInsert[0], receiver: userDataToInsert[1] , content: "test send message"},
-  {sender: userDataToInsert[1], receiver: userDataToInsert[0], content: "test reply message"},
-  // {sender: , receiver: , group: , content: ""},
-  // {sender: , receiver: , group: , content: ""},
-  // {sender: , receiver: , group: , content: ""},
-]
+// username, password, email, messages, groups
+async function createUsers() {
+  console.log("Adding users");
+  await Promise.all([
+    userCreate(0, "testuser", "12345", "test@email.com", [
+      messages[0],
+      messages[1],
+    ]),
+    userCreate(1, "testuser2", "12345", "test2@email.com", [
+      messages[0],
+      messages[1],
+    ]),
+  ]);
+}
 
-// Function to insert data into the database
-const populateDatabase = async () => {
-  try {
-    // Delete existing documents (optional)
-    // await YourModel.deleteMany({});
+// index, sender, reciever, group, content
+async function createMessages() {
+  console.log("Adding messages");
+  // console.log(users);
+  // console.log(users);
+  await Promise.all([
+    messageCreate(0, users[0], users[1], undefined, "test send message"),
+    messageCreate(1, users[1], users[0], undefined, "test reply message"),
+    messageCreate(2, users[0], users[1], groups[0], "test group send message"),
+    messageCreate(3, users[1], users[0], groups[0], "test group reply message"),
+  ]);
+}
 
-    // Insert new documents
-    await Characters.insertMany(dataToInsert);
-
-    console.log("Database seeded successfully");
-  } catch (error) {
-    console.error("Error seeding database:", error);
-  } finally {
-    // Close the database connection
-    mongoose.disconnect();
-  }
-};
-
-// Call the function to seed the database
-populateDatabase();
+// index, name, members,. messages
+async function createGroups() {
+  console.log("Adding groups");
+  await Promise.all([
+    groupCreate(
+      0,
+      "test group",
+      [users[0], users[1]],
+      [messages[2], messages[3]]
+    ),
+  ]);
+}
