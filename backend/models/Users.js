@@ -9,6 +9,7 @@ const UserSchema = Schema(
     password: { type: String, required: true },
     email: { type: String, unique: true, required: true },
     messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
+    group: [{ type: mongoose.Schema.Types.ObjectId, ref: "Groups" }],
   },
   { timestamps: true, toJSON: { virtuals: true } }
 );
