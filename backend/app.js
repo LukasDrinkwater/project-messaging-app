@@ -14,8 +14,11 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 
 // Import routes
+const indexRouter = require("./routes/indexRoutes");
+const authRouter = require("./routes/authRoutes");
 
 const app = express();
+const port = process.env.PORT || 3000; // Set your desired port or use a default (e.g., 3000)
 
 // Setup mongoose mongoDB connection
 const mongoose = require("mongoose");
@@ -84,7 +87,22 @@ app.use(express.urlencoded({ extended: false })); //set to true for JSON
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
+});
+
 // Routes setup
+app.use("/api", indexRouter);
+app.use("/authentication", authRouter);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
@@ -99,6 +117,15 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   // res.render("error");
+});
+
+const server = app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+// Additional event listener for handling server errors
+server.on("error", (error) => {
+  console.error("Server error:", error.message);
 });
 
 module.exports = app;
