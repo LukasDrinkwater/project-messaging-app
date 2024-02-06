@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import { LoginContext } from "../../../App";
 
@@ -24,29 +25,48 @@ export default function LoginForm() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
+    // const response = await axios({
+    //   method: "POST",
+    //   url: "/login",
+    // });
     try {
-      const response = await fetch("http://localhost:3000/login", {
-        credentials: "include",
-        mode: "cors",
+      const response = await axios({
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify({
+        url: "/api/test",
+        data: {
           username,
           password,
-        }),
+        },
       });
 
-      // if login successfull set loggedIn state to true
-      if (response.ok) {
-        // const data = await response.json();
-        setLoggedIn(true);
-      }
+      console.log(response.data);
     } catch (error) {
-      console.log("Error when logging in:", error);
+      console.log("Error logging in:", error);
     }
+
+    // try {
+    //   const response = await fetch("http://localhost:3000/login", {
+    //     credentials: "include",
+    //     mode: "cors",
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+
+    //     body: JSON.stringify({
+    //       username,
+    //       password,
+    //     }),
+    //   });
+
+    //   // if login successfull set loggedIn state to true
+    //   if (response.ok) {
+    //     // const data = await response.json();
+    //     setLoggedIn(true);
+    //   }
+    // } catch (error) {
+    //   console.log("Error when logging in:", error);
+    // }
   };
 
   return (
