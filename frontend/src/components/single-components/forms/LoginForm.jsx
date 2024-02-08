@@ -11,8 +11,8 @@ export default function LoginForm() {
   const [loggedIn, setLoggedIn] = useContext(LoginContext);
 
   // States for the form
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("testuser");
+  const [password, setPassword] = useState("12345");
 
   // Check if user is already logged in and then redirect
   useEffect(() => {
@@ -25,48 +25,25 @@ export default function LoginForm() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
-    // const response = await axios({
-    //   method: "POST",
-    //   url: "/login",
-    // });
     try {
       const response = await axios({
         method: "POST",
-        url: "/api/test",
+        url: "/authentication/login",
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
         data: {
           username,
           password,
         },
       });
 
-      console.log(response.data);
+      setLoggedIn(true);
+      navigate("/messages");
     } catch (error) {
       console.log("Error logging in:", error);
     }
-
-    // try {
-    //   const response = await fetch("http://localhost:3000/login", {
-    //     credentials: "include",
-    //     mode: "cors",
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-
-    //     body: JSON.stringify({
-    //       username,
-    //       password,
-    //     }),
-    //   });
-
-    //   // if login successfull set loggedIn state to true
-    //   if (response.ok) {
-    //     // const data = await response.json();
-    //     setLoggedIn(true);
-    //   }
-    // } catch (error) {
-    //   console.log("Error when logging in:", error);
-    // }
   };
 
   return (
