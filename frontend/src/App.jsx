@@ -11,9 +11,10 @@ import Footer from "./components/single-components/single_use/Footer";
 import Header from "./components/single-components/single_use/Header";
 import LoginPage from "./components/pages/LoginPage";
 import MessagesPage from "./components/pages/MessagesPage";
+import SignUpPage from "./components/pages/SignUpPage";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState({ loggedIn: false, admin: false });
+  const [loggedIn, setLoggedIn] = useState(false);
 
   // runs on first page load. Initial load or after a user leaves and comes back to the
   // site and the session cookie still exists. Then updates loggedIn state
@@ -51,16 +52,17 @@ function App() {
   return (
     <>
       <LoginContext.Provider value={[loggedIn, setLoggedIn]}>
+        <Header />
         <div className="content">
-          <Header />
           <Routes>
             <Route path="/" Component={MessagesPage}></Route>
 
             <Route path="/login" Component={LoginPage}></Route>
+            <Route path="/signup" Component={SignUpPage}></Route>
             <Route path="/messages" Component={MessagesPage}></Route>
           </Routes>
-          <Footer />
         </div>
+        <Footer />
       </LoginContext.Provider>
     </>
   );
