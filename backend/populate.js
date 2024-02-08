@@ -33,16 +33,16 @@ async function main() {
   await mongoose.connect(mongoDB);
   console.log("Debug: Should be connected?");
 
+  // await createMessages();
   await createUsers();
-  await createMessages();
   await createGroups();
+
+  console.log("messages", messages);
+  console.log("Groups", groups);
+  console.log("users", users);
   console.log("Debug: Closing mongoose");
   mongoose.connection.close();
 }
-
-// We pass the index to the ...Create functions so that, for example,
-// genre[0] will always be the Fantasy genre, regardless of the order
-// in which the elements of promise.all's argument complete.
 
 // User Model fields
 // username: { type: String, unique: true, required: true },
@@ -50,18 +50,27 @@ async function main() {
 // email: { type: String, unique: true, required: true },
 // messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
 // Group:[{ type: mongoose.Schema.Types.ObjectId, ref: "Groups" }],
-async function userCreate(index, username, password, email, messages, group) {
+async function userCreate(
+  index,
+  username,
+  password,
+  email,
+  messages,
+  contacts,
+  group
+) {
   const user = new User({
     username: username,
     password: password,
     email: email,
     messages: messages,
+    contacts: contacts,
     group: group,
   });
 
   await user.save();
   users[index] = user;
-  console.log(`usermessage: ${username} ${email}`);
+  console.log(`user: ${username} ${email}`);
 }
 
 // Message model fields
@@ -99,21 +108,6 @@ async function groupCreate(index, name, members, messages) {
   console.log(`Added group: ${name} ${members}`);
 }
 
-// username, password, email, messages, groups
-async function createUsers() {
-  console.log("Adding users");
-  await Promise.all([
-    userCreate(0, "testuser", "12345", "test@email.com", [
-      messages[0],
-      messages[1],
-    ]),
-    userCreate(1, "testuser2", "12345", "test2@email.com", [
-      messages[0],
-      messages[1],
-    ]),
-  ]);
-}
-
 // index, sender, reciever, group, content
 async function createMessages() {
   console.log("Adding messages");
@@ -137,5 +131,25 @@ async function createGroups() {
       [users[0], users[1]],
       [messages[2], messages[3]]
     ),
+  ]);
+}
+
+// username, password, email, messages, contacts, groups
+async function createUsers() {
+  console.log("Adding users");
+  await Promise.all([
+    userCreate(
+      0,
+      "testuser",
+      "12345",
+      "test@email.com",
+      undefined,
+      [users[1]],
+      [groups[0]]
+    ),
+    userCreate(1, "testuser2", "12345", "test2@email.com", undefined, [
+      users[0],
+      [groups[0]],
+    ]),
   ]);
 }
