@@ -17,6 +17,9 @@ const bcrypt = require("bcryptjs");
 const indexRouter = require("./routes/indexRoutes");
 const authRouter = require("./routes/authRoutes");
 
+// Import models
+const User = require("./models/Users");
+
 const app = express();
 const port = process.env.PORT || 3000; // Set your desired port or use a default (e.g., 3000)
 
@@ -87,17 +90,17 @@ app.use(express.urlencoded({ extended: false })); //set to true for JSON
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err);
-  }
-});
+// passport.serializeUser((user, done) => {
+//   done(null, user.id);
+// });
+// passport.deserializeUser(async (id, done) => {
+//   try {
+//     const user = await User.findById(id);
+//     done(null, user);
+//   } catch (err) {
+//     done(err);
+//   }
+// });
 
 // Routes setup
 app.use("/api", indexRouter);
