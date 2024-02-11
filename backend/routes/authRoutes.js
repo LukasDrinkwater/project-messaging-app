@@ -6,8 +6,8 @@ const passport = require("passport");
 const authController = require("../controllers/authController");
 const { login } = require("../strategies/authentication");
 
-// GET test reponse
-router.get("/check-auth", authController.test_check);
+// POST Check if user is already logged in
+router.get("/check-auth", authController.check_if_user_logged_in);
 
 // POST Login form
 // when passport.authenticate is called its going through the localStrategy defined
