@@ -12,6 +12,8 @@ import Header from "./components/single-components/single_use/Header";
 import LoginPage from "./components/pages/LoginPage";
 import MessagesPage from "./components/pages/MessagesPage";
 import SignUpPage from "./components/pages/SignUpPage";
+import ContactsPage from "./components/pages/ContactsPage";
+import axios from "axios";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -19,35 +21,30 @@ function App() {
   // runs on first page load. Initial load or after a user leaves and comes back to the
   // site and the session cookie still exists. Then updates loggedIn state
 
-  // useEffect(() => {
-  //   const checkIfLoggedIn = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "http://localhost:3000/authentication/check-auth",
-  //         {
-  //           credentials: "include",
-  //           mode: "cors",
-  //           method: "GET",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       );
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await axios({
+          method: "GET",
+          url: "/authentication/check-auth",
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         if (data.loggedIn) {
-  //           setLoggedIn(true);
-  //         } else {
-  //           // Redirect to login page
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.log("Error checking logged in status:", error);
-  //     }
-  //   };
-  //   checkIfLoggedIn();
-  // });
+        if (response.data.loggedIn === false) {
+          setLoggedIn(false);
+        } else {
+          setLoggedIn(true);
+        }
+      } catch (error) {
+        console.log("Errors checking auth:", error);
+      }
+    };
+
+    checkAuth();
+  }, []);
 
   return (
     <>
@@ -60,6 +57,8 @@ function App() {
             <Route path="/login" Component={LoginPage}></Route>
             <Route path="/signup" Component={SignUpPage}></Route>
             <Route path="/messages" Component={MessagesPage}></Route>
+            <Route path="/contacts" Component={ContactsPage}></Route>
+            {/* <Route path="/contacts/add" ></Route> */}
           </Routes>
         </div>
         <Footer />
