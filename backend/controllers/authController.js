@@ -11,6 +11,18 @@ exports.test_check = asnycHandler(async (req, res, next) => {
   res.json({ message: "hey im a test reponse" }).statusCode(200).send();
 });
 
+// POST Check if user is already logged in
+exports.check_if_user_logged_in = asnycHandler(async (req, res, next) => {
+  // isAuthenticated needs to be called ()
+  if (req.isAuthenticated()) {
+    console.log("logged in");
+    res.status(200).json({ loggedIn: true });
+  } else {
+    console.log("not logged in");
+    res.json({ loggedIn: false }).send();
+  }
+});
+
 // POST signup new user
 exports.signup_post = [
   body("username", "Username must be atleast 1 character")
