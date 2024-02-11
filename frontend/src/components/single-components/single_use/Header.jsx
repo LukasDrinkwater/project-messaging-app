@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { LoginContext } from "../../../App";
 
 export default function Header() {
@@ -43,7 +43,12 @@ export default function Header() {
             </div>
           ) : (
             <div className="loginButton">
-              <button>Login</button>
+              <NavLink to="/login">Login</NavLink>
+            </div>
+          )}
+          {!loggedIn && (
+            <div className="signupNav">
+              <NavLink to="/signup">Signup</NavLink>
             </div>
           )}
         </div>
