@@ -15,6 +15,7 @@ const bcrypt = require("bcryptjs");
 
 // Import routes
 const indexRouter = require("./routes/indexRoutes");
+const contactRouter = require("./routes/contactRoutes");
 const authRouter = require("./routes/authRoutes");
 
 // Import models
@@ -87,23 +88,12 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 app.use(express.urlencoded({ extended: false })); //set to true for JSON
-app.use(passport.initialize());
 app.use(passport.session());
-
-// passport.serializeUser((user, done) => {
-//   done(null, user.id);
-// });
-// passport.deserializeUser(async (id, done) => {
-//   try {
-//     const user = await User.findById(id);
-//     done(null, user);
-//   } catch (err) {
-//     done(err);
-//   }
-// });
+app.use(passport.initialize());
 
 // Routes setup
 app.use("/api", indexRouter);
+app.use("/api/contacts", contactRouter);
 app.use("/authentication", authRouter);
 
 // catch 404 and forward to error handler
