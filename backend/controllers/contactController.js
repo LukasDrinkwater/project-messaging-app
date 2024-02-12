@@ -2,6 +2,7 @@ const { body, validationResult } = require("express-validator");
 const asnycHandler = require("express-async-handler");
 
 const User = require("../models/Users");
+const Chat = require("../models/Chats");
 const Message = require("../models/Messages");
 
 // POST add new contact
@@ -64,16 +65,12 @@ exports.add_new_contact_post = [
 // GET all contacts for current user
 exports.all_contacts_for_current_user_get = asnycHandler(
   async (req, res, next) => {
-    // const user = await User.findById(req.user.id).populate("contacts").exec();
-    const user = await User.findById(req.user.id)
-      .populate({
-        path: "contacts",
-        populate: {
-          path: "messages",
-          // options: { sort: { createdAt: -1 }, limit: 1 }, // Sort messages by createdAt in descending order and limit to 1
-        },
-      })
-      .exec();
+    // const [user, chat] = await Promise.all([
+    //   User.findById(req.user.id).populate("contacts"),
+    //   Chat.find({ users: [req.user.id] }).populate("messages"),
+    // ]);
+
+    const user = await User.findById(req.user.id).populate("contacts").exec();
 
     console.log(user);
 
@@ -81,6 +78,7 @@ exports.all_contacts_for_current_user_get = asnycHandler(
 
     // const allContacts = user.contacts.map((contact) => contact.username);
     const allContacts = user.contacts;
+    const allChats = chat;
     console.log(allContacts);
     if (user === null) {
       res.sendStatus(204);
@@ -90,7 +88,7 @@ exports.all_contacts_for_current_user_get = asnycHandler(
     } else {
       // console.log(allContacts.contacts);
 
-      res.json(allContacts);
+      res.json({ allContacts, allChats });
     }
   }
 );
