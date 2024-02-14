@@ -11,6 +11,7 @@ import Footer from "./components/single-components/single_use/Footer";
 import Header from "./components/single-components/single_use/Header";
 import LoginPage from "./components/pages/LoginPage";
 import MessagesPage from "./components/pages/MessagesPage";
+import ChatPage from "./components/pages/ChatPage";
 import SignUpPage from "./components/pages/SignUpPage";
 import ContactsPage from "./components/pages/ContactsPage";
 import axios from "axios";
@@ -57,6 +58,7 @@ function App() {
             <Route path="/login" Component={LoginPage}></Route>
             <Route path="/signup" Component={SignUpPage}></Route>
             <Route path="/messages" Component={MessagesPage}></Route>
+            <Route path="/messages/:chatId" Component={ChatPage}></Route>
             <Route path="/contacts" Component={ContactsPage}></Route>
             {/* <Route path="/contacts/add" ></Route> */}
           </Routes>
