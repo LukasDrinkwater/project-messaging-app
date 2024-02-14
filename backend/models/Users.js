@@ -8,7 +8,7 @@ const UserSchema = Schema(
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     email: { type: String, unique: true, required: true },
-    // messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
+    messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
     chats: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chat" }],
     contacts: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     groups: [{ type: mongoose.Schema.Types.ObjectId, ref: "Group" }],
