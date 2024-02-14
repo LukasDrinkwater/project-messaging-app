@@ -17,6 +17,7 @@ const bcrypt = require("bcryptjs");
 const indexRouter = require("./routes/indexRoutes");
 const contactRouter = require("./routes/contactRoutes");
 const authRouter = require("./routes/authRoutes");
+const chatRouter = require("./routes/chatRoutes");
 
 // Import models
 const User = require("./models/Users");
@@ -95,6 +96,7 @@ app.use(passport.initialize());
 app.use("/api", indexRouter);
 app.use("/api/contacts", contactRouter);
 app.use("/authentication", authRouter);
+app.use("/api/chats", chatRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
