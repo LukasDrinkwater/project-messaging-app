@@ -65,21 +65,12 @@ exports.user_specfic_chat_get = asnycHandler(async (req, res, next) => {
   // try {
   const usersChat = await Chat.findById(req.params.chatId)
     .populate("users")
-    // .populate({
-    //   path: "messages",
-    //   options: { sort: { createdAt } },
-    // })
-    .exec((error) => {
-      if (error) {
-        console.log("Error getting specific chat:", error);
-      }
-    });
+    .populate("messages")
+    .exec();
 
-  console.log(usersChat);
-  // } catch (error) {
-  // console.log("Error getting specific chat:", error);
-  // res.sendStatus(204).json({ error });
-  // }
-
-  // send the chat
+  if (usersChat === null) {
+    res.status(204).json({ error: "Could find chat" });
+  } else {
+    res.status(200).json({ chat: usersChat, userId: req.user.id });
+  }
 });
