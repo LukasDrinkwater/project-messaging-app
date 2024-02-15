@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function ContactPreview({ contact, usersChats }) {
   const navigate = useNavigate();
-  console.log(contact);
+  // console.log(contact);
 
   const startNewChat = async (e) => {
     e.preventDefault();
@@ -27,17 +28,18 @@ export default function ContactPreview({ contact, usersChats }) {
     }
   };
 
-  console.log(usersChats);
+  // check if the current contact already has a chat with the user
   const contactId = contact.id;
-  const currentContactChat = usersChats.some((chat) =>
-    chat.users.some((user) => user._id === contactId)
+  const currentContactChatExist = usersChats.some((chat) =>
+    chat.users.some((user) => user.id === contactId)
   );
 
-  // usersChats.find((chat) =>
-  //   chat.users.some((user) => user.id === contactId)
-  // );
-  console.log(contact.username, currentContactChat);
-  // const chatExists =
+  const currentContactChat = usersChats.find((chat) =>
+    chat.users.filter((user) => user.id === contactId)
+  );
+  const currentContactChatId = currentContactChat.id;
+
+  // console.log(currentContactChatId);
 
   return (
     <>
@@ -51,11 +53,13 @@ export default function ContactPreview({ contact, usersChats }) {
         <div className="contactPreviewMessage">
           <p>{contact.messages.content}</p>
         </div>
-        {
+        {currentContactChatExist ? (
+          <Link to={`/messages/${currentContactChatId}`}>Go to chat</Link>
+        ) : (
           <div className="startChatButton">
             <button onClick={startNewChat}>Start Chat</button>
           </div>
-        }
+        )}
         <div className="editContactButton">
           <button>EDIT CONTACT</button>
         </div>
