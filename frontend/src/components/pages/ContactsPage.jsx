@@ -14,7 +14,7 @@ export default function ContactsPage() {
   const [usersChats, setUsersChats] = useState([]);
 
   useEffect(() => {
-    console.log("trigger");
+    // console.log("trigger");
 
     const getAllContacts = async () => {
       try {
@@ -26,7 +26,7 @@ export default function ContactsPage() {
             "Content-Type": "application/json",
           },
         });
-        console.log("triggered");
+        // console.log("triggered");
 
         // console.log(response.data);
         setAllContacts(response.data.allContacts);
