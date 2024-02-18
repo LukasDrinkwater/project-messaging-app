@@ -1,9 +1,9 @@
 const { body, validationResult } = require("express-validator");
 const asnycHandler = require("express-async-handler");
 
-const User = require("../models/Users");
-const Chat = require("../models/Chats");
-const Message = require("../models/Messages");
+const Users = require("../models/Users");
+const Chats = require("../models/Chats");
+const Messages = require("../models/Messages");
 
 // POST add new contact
 exports.add_new_contact_post = [
@@ -22,8 +22,8 @@ exports.add_new_contact_post = [
       // Find the user that will be added as a contact
       const [usernameToAdd, currentUser] = await Promise.all([
         // User.findById(req.user._id),
-        User.findOne({ username: req.body.usernameToAdd }).exec(),
-        User.findById(req.user._id).populate("contacts").exec(),
+        Users.findOne({ username: req.body.usernameToAdd }).exec(),
+        Users.findById(req.user._id).populate("contacts").exec(),
       ]);
 
       // Check to see if the usernameToAdd is already in the contacts array
@@ -43,9 +43,10 @@ exports.add_new_contact_post = [
         res.status(404).send("Cannot find contact to add");
       } else {
         // Push the added contact to the users contacts array
-        const updatedUser = await User.findByIdAndUpdate(req.user._id, {
+        const updatedUser = await Users.findByIdAndUpdate(req.user._id, {
           $push: { contacts: usernameToAdd },
         });
+        console.log(updatedUser);
 
         if (updatedUser === null) {
           res.sendStatus(400);
@@ -68,16 +69,21 @@ exports.all_contacts_for_current_user_get = asnycHandler(
     console.log(req.user.id);
 
     const [user, usersChats] = await Promise.all([
-      User.findById(req.user.id).populate("contacts").exec(),
-      Chat.find({
-        users: {
-          $all: [req.user.id],
-        },
-      })
-        .populate("messages")
-        .populate("users")
-        .exec(),
+      Users.findById(req.user.id).populate("contacts").exec(),
+      // Chats.find({
+      //   users: {
+      //     $all: [req.user.id],
+      //   },
+      // })
+      //   .populate("users")
+      //   .exec(),
     ]);
+    const chats = await Chats.find({ users: { $all: [req.user.id] } });
+    const populatedChats = await Chats.populate(chats, { path: "users" });
+    console.log(populatedChats);
+
+    // console.log("USER", user);
+    // console.log("CHATS", usersChats);
 
     const allContacts = user.contacts;
 
@@ -89,9 +95,9 @@ exports.all_contacts_for_current_user_get = asnycHandler(
     // if (user.contacts === null) {
     //   res.sendStatus(204);
     // } else {
-
-    res.json({ allContacts, usersChats });
-    // res.json({ allContacts });
+    const test = "test";
+    res.json({ allContacts, test, populatedChats });
+    // res.json({ message: "test" });
     // }
   }
 );
