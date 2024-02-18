@@ -4,6 +4,8 @@ import axios from "axios";
 
 export default function ContactPreview({ contact, usersChats }) {
   const navigate = useNavigate();
+  // console.log("render contact preview");
+  // console.log("userschats:", usersChats);
   // console.log(contact);
 
   const startNewChat = async (e) => {
@@ -37,7 +39,7 @@ export default function ContactPreview({ contact, usersChats }) {
   const currentContactChat = usersChats.find((chat) =>
     chat.users.filter((user) => user.id === contactId)
   );
-  const currentContactChatId = currentContactChat.id;
+  const currentContactChatId = currentContactChat?.id;
 
   // console.log(currentContactChatId);
 
@@ -51,7 +53,9 @@ export default function ContactPreview({ contact, usersChats }) {
           <p>{contact.username}</p>
         </div>
         <div className="contactPreviewMessage">
-          <p>{contact.messages.content}</p>
+          {/* <p>{contact.messages.content}</p> */}
+          {/* need to update so it gets the lastMessage from the chat */}
+          <p>show latest message</p>
         </div>
         {currentContactChatExist ? (
           <Link to={`/messages/${currentContactChatId}`}>Go to chat</Link>
