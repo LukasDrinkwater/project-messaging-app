@@ -21,9 +21,10 @@ export default function AddContactForm() {
           usernameToAdd,
         },
       });
+      console.log(response);
 
       if (response.data.foundUser) {
-        console.log("found user", response);
+        // console.log("found user", response);
         navigate("/messages");
       }
     } catch (error) {
