@@ -14,7 +14,7 @@ export default function ContactsPage() {
   const [usersChats, setUsersChats] = useState([]);
 
   useEffect(() => {
-    // console.log("trigger");
+    console.log("trigger");
 
     const getAllContacts = async () => {
       try {
@@ -26,11 +26,13 @@ export default function ContactsPage() {
             "Content-Type": "application/json",
           },
         });
-        // console.log("triggered");
+        console.log("triggered");
 
-        // console.log(response.data);
+        console.log(response.data);
         setAllContacts(response.data.allContacts);
-        setUsersChats(response.data.usersChats);
+        // if (response.data.userchats.length !== 0) {
+        //   setUsersChats(response.data.usersChats);
+        // }
       } catch (error) {
         console.log("Error getting contacts:", error);
       }
@@ -40,8 +42,6 @@ export default function ContactsPage() {
       getAllContacts();
     }
   }, []);
-
-  // console.log(allContacts.length);
 
   return (
     <>
