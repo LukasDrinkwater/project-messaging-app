@@ -2,14 +2,14 @@ const { body, validationResult } = require("express-validator");
 const asnycHandler = require("express-async-handler");
 
 // Import models
-const User = require("../models/Users");
-const Message = require("../models/Messages");
-const Group = require("../models/Groups");
-const Chat = require("../models/Chats");
+const Users = require("../models/Users");
+const Messages = require("../models/Messages");
+const Groups = require("../models/Groups");
+const Chats = require("../models/Chats");
 
 exports.current_users_chats_get = asnycHandler(async (req, res, next) => {
   // // const allUsersChats = await Chats.find()
-  // const allUserChats = await Chat.find({
+  // const allUserChats = await Chats.find({
   //   users: mongoose.Types.ObjectId(userId),
   // })
   //   .populate("messages") // Optionally populate messages if needed
@@ -26,17 +26,13 @@ exports.current_users_chats_get = asnycHandler(async (req, res, next) => {
 
 exports.create_new_chat_post = asnycHandler(async (req, res, next) => {
   // check to see if a chat already exists
-  const chatExists = await Chat.find({
+  const chatExists = await Chats.find({
     uses: { $all: [req.user.id, req.body.userToChatWith] },
   });
 
-  // if (chatExists) {
-  // next();
-  // } else {
-  // try {
   const [user, userReceiver] = await Promise.all([
-    User.findById(req.user.id).exec(),
-    User.findById(req.body.userToChatWith).exec(),
+    Users.findById(req.user.id).exec(),
+    Users.findById(req.body.userToChatWith).exec(),
   ]);
   // console.log("user", user);
   // console.log("receiver", userReceiver);
@@ -45,32 +41,33 @@ exports.create_new_chat_post = asnycHandler(async (req, res, next) => {
     res.sendStatus(204);
   } else {
     const usersForChat = [user, userReceiver];
-    const newChat = new Chat({
+    const newChat = new Chats({
       users: usersForChat,
     });
     await newChat.save();
     res.status(201).json({ chatCreated: true, chatId: newChat.id }).send();
   }
-  // }
-
-  // } catch (error) {
-  // console.log("Error in current_users_chats_get:", error);
-  // }
 });
 
 exports.user_specfic_chat_get = asnycHandler(async (req, res, next) => {
-  console.log("getting chat");
   console.log(req.params.chatId);
+  const userId = req.user.id;
+  console.log("getting chat");
+
   // find the chat
   // try {
-  const usersChat = await Chat.findById(req.params.chatId)
-    .populate("users")
+  const usersChat = await Chats.findById(req.params.chatId)
     .populate("messages")
     .exec();
+
+  console.log(usersChat);
 
   if (usersChat === null) {
     res.status(204).json({ error: "Could find chat" });
   } else {
-    res.status(200).json({ chat: usersChat, userId: req.user.id });
+    console.log("responding");
+    // res.status(200).json({ chat: usersChat });
+    res.status(200).json({ userId, messages: usersChat.messages });
+    // res.json({ message: "testing" });
   }
 });
