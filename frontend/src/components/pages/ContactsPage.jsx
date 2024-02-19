@@ -41,7 +41,7 @@ export default function ContactsPage() {
     if (!addContact) {
       getAllContacts();
     }
-  }, []);
+  }, [addContact]);
 
   return (
     <>
