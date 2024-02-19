@@ -70,20 +70,31 @@ exports.all_contacts_for_current_user_get = asnycHandler(
 
     const [user, usersChats] = await Promise.all([
       Users.findById(req.user.id).populate("contacts").exec(),
-      // Chats.find({
-      //   users: {
-      //     $all: [req.user.id],
-      //   },
-      // })
-      //   .populate("users")
-      //   .exec(),
+      Chats.find({
+        users: {
+          $all: [req.user.id],
+        },
+      })
+        // .populate("users")
+        .populate({
+          path: "users",
+          select: "username _id",
+        })
+        .exec(),
     ]);
-    const chats = await Chats.find({ users: { $all: [req.user.id] } });
-    const populatedChats = await Chats.populate(chats, { path: "users" });
-    console.log(populatedChats);
+    // const chats = await Chats.find({ users: { $all: [req.user.id] } });
+    // const populatedChats = await Chats.populate(chats, { path: "users" });
+    // const populatedChats = await Chats.find()
+    //   .populate({
+    //     path: "users",
+    //     select: "username _id",
+    //   })
+    //   .exec();
 
-    // console.log("USER", user);
-    // console.log("CHATS", usersChats);
+    // console.log(populatedChats[0].users);
+
+    console.log("USER", user);
+    console.log("CHATS", usersChats[0]);
 
     const allContacts = user.contacts;
 
@@ -96,7 +107,7 @@ exports.all_contacts_for_current_user_get = asnycHandler(
     //   res.sendStatus(204);
     // } else {
     const test = "test";
-    res.json({ allContacts, test, populatedChats });
+    res.json({ allContacts, test, usersChats });
     // res.json({ message: "test" });
     // }
   }
