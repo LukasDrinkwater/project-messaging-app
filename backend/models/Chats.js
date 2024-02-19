@@ -12,31 +12,17 @@ const ChatSchema = Schema(
   { timestamps: true, toJSON: { virtuals: true } }
 );
 
-ChatSchema.virtual("lastUpdate").get(function () {
-  return this.updatedAt.toLocalDateString;
-});
+// ChatSchema.virtual("lastUpdate").get(function () {
+//   return this.updatedAt.toLocalDateString;
+// });
 
-ChatSchema.virtual("lastMessageFormatted").get(function () {
-  if (this.lastMessage.length > 30) {
-    return this.lastMessage.slice(0, 30) + "...";
-  }
-  return this.lastMessage;
-});
-
-// ChatSchema.virtual("lastMessage").get(async function () {
-//   // Populate the 'messages' field before sorting
-//   await this.populate("messages");
-//   // console.log("Populated messages:", this.messages);
-
-//   // If there are messages, sort them and send back the latest message
-//   if (this.messages.length > 0) {
-//     const sortedMessages = this.messages.sort(
-//       (a, b) => b.createdAt - a.createdAt
-//     );
-//     return sortedMessages[0];
-//   } else {
-//     return null;
+// Need to check this, it causes an issue which stops the usersChats from being sent in
+// the contract controller.
+// ChatSchema.virtual("lastMessageFormatted").get(function () {
+//   if (this.lastMessage.length > 30) {
+//     return this.lastMessage.slice(0, 30) + "...";
 //   }
+//   return this.lastMessage;
 // });
 
 module.exports = mongoose.model("Chat", ChatSchema);
