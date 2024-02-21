@@ -8,7 +8,7 @@ import NewMessageForm from "../single-components/forms/NewMessageForm";
 
 export default function ChatPage() {
   const { chatId } = useParams();
-  const [chat, setChat] = useState([]);
+  const [chatMessages, setChatMessages] = useState([]);
   const [userId, setUserId] = useState(null);
   // useEffect to get the chat from the url :chatId which comes from starting a new chat
   useEffect(() => {
@@ -26,8 +26,8 @@ export default function ChatPage() {
         console.log("er");
         console.log(response);
         // if reponse good assign data to state
-        if (response.data.chat) {
-          setChat(response.data.chat);
+        if (response.data?.chatMessages.length > 0) {
+          setChatMessages(response.data.chatMessages);
           setUserId(response.data.userId);
         }
 
@@ -44,7 +44,11 @@ export default function ChatPage() {
     <>
       <div className="chatPageContainer">
         {/* render component for chat. */}
-        {!chat ? <div>Loading Chat</div> : <Chat chat={chat} userId={userId} />}
+        {!chatMessages ? (
+          <div>Loading Chat</div>
+        ) : (
+          <Chat chatMessages={chatMessages} userId={userId} />
+        )}
         <NewMessageForm />
         <div>ChatPage</div>
       </div>
