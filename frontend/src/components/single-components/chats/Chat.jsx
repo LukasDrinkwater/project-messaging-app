@@ -1,16 +1,16 @@
 import SingleMessage from "./SingleMessage";
 
-export default function Chat({ chat, userId }) {
-  // console.log(chat);
+export default function Chat({ chatMessages, userId }) {
+  console.log(chatMessages);
   // console.log(userId);
   return (
     <>
       <div className="ChatContainer">
         {/* map through chat messages */}
         <div>Chat</div>
-        {chat.messages?.length > 0 ? (
-          chat.messages.map((message) => (
-            <SingleMessage key={message.id} message={message} />
+        {chatMessages?.length > 0 ? (
+          chatMessages.map((message) => (
+            <SingleMessage key={message.id} message={message} userId={userId} />
           ))
         ) : (
           <p>be the first the message.</p>
