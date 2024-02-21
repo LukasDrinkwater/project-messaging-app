@@ -7,21 +7,25 @@ const Messages = require("../models/Messages");
 const Groups = require("../models/Groups");
 const Chats = require("../models/Chats");
 
-exports.current_users_chats_get = asnycHandler(async (req, res, next) => {
-  // // const allUsersChats = await Chats.find()
-  // const allUserChats = await Chats.find({
-  //   users: mongoose.Types.ObjectId(userId),
-  // })
-  //   .populate("messages") // Optionally populate messages if needed
-  //   .exec((err, chats) => {
-  //     if (err) {
-  //       // Handle error
-  //       console.error(err);
-  //       return res.status(500).json({ error: "Internal Server Error" });
-  //     }
-  //     // get the current users chats
-  //   });
-  // console.log(allUserChats);
+// Get all the users chats
+exports.all_users_chats_get = asnycHandler(async (req, res, next) => {
+  const userId = req.user.id;
+
+  // Get all chats that current logged in use is in.
+  const allChats = await Chats.find({
+    users: {
+      $all: [userId],
+    },
+  })
+    .populate({
+      path: "users",
+      select: "username _id",
+    })
+    .exec();
+
+  if (allChats === null) {
+    res.status();
+  }
 });
 
 exports.create_new_chat_post = asnycHandler(async (req, res, next) => {
@@ -51,23 +55,19 @@ exports.create_new_chat_post = asnycHandler(async (req, res, next) => {
 
 exports.user_specfic_chat_get = asnycHandler(async (req, res, next) => {
   console.log(req.params.chatId);
+  const chatId = req.params.chatId;
   const userId = req.user.id;
-  console.log("getting chat");
 
-  // find the chat
-  // try {
-  const usersChat = await Chats.findById(req.params.chatId)
-    .populate("messages")
+  const chatMessages = await Messages.find({ chat: chatId })
+    .populate({ path: "sender", select: "username _id" })
+    .sort({ createdAt: 1 })
     .exec();
 
-  console.log(usersChat);
+  console.log("getting chat");
 
-  if (usersChat === null) {
-    res.status(204).json({ error: "Could find chat" });
-  } else {
-    console.log("responding");
-    // res.status(200).json({ chat: usersChat });
-    res.status(200).json({ userId, messages: usersChat.messages });
-    // res.json({ message: "testing" });
+  if (chatMessages === null) {
+    res.status(200).json({ message: "No chats" });
   }
+
+  res.json({ chatMessages, userId });
 });
