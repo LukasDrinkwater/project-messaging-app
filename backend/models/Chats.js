@@ -18,6 +18,10 @@ const ChatSchema = Schema(
 
 // Need to check this, it causes an issue which stops the usersChats from being sent in
 // the contract controller.
+
+ChatSchema.virtual("lastMessageTest").get(function () {
+  return this.lastMessage;
+});
 // ChatSchema.virtual("lastMessageFormatted").get(function () {
 //   if (this.lastMessage.length > 30) {
 //     return this.lastMessage.slice(0, 30) + "...";
