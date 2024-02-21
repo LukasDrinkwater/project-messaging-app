@@ -4,9 +4,6 @@ import axios from "axios";
 
 export default function ContactPreview({ contact, usersChats }) {
   const navigate = useNavigate();
-  // console.log("render contact preview");
-  // console.log("userschats:", usersChats);
-  // console.log(contact);
 
   const startNewChat = async (e) => {
     e.preventDefault();
@@ -36,12 +33,13 @@ export default function ContactPreview({ contact, usersChats }) {
     chat.users.some((user) => user.id === contactId)
   );
 
+  // Find the chat that has the current user.
+  // Needs to be .some because .find expects a true
   const currentContactChat = usersChats.find((chat) =>
-    chat.users.filter((user) => user.id === contactId)
+    chat.users.some((user) => user.id === contactId)
   );
-  const currentContactChatId = currentContactChat?.id;
 
-  // console.log(currentContactChatId);
+  const currentContactChatId = currentContactChat?.id;
 
   return (
     <>
@@ -58,7 +56,9 @@ export default function ContactPreview({ contact, usersChats }) {
           <p>show latest message</p>
         </div>
         {currentContactChatExist ? (
-          <Link to={`/messages/${currentContactChatId}`}>Go to chat</Link>
+          <Link to={`/messages/${currentContactChatId}`}>
+            Go to chat {currentContactChatId}
+          </Link>
         ) : (
           <div className="startChatButton">
             <button onClick={startNewChat}>Start Chat</button>
