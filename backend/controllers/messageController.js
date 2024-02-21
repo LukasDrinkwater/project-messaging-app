@@ -32,6 +32,7 @@ exports.new_message_post = [
       const newMessage = new Messages({
         sender: req.user.id,
         content: req.body.content,
+        chat: chatId,
       });
 
       await newMessage.save();
@@ -39,7 +40,13 @@ exports.new_message_post = [
 
       const updatedChat = await Chats.findOneAndUpdate(
         { _id: chatId },
-        { $push: { messages: newMessage } },
+        {
+          $push: { messages: newMessage },
+          $set: {
+            lastMessage: newMessage.content,
+          },
+        },
+
         { new: true }
       );
 
