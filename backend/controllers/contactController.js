@@ -66,8 +66,6 @@ exports.add_new_contact_post = [
 // GET all contacts for current user
 exports.all_contacts_for_current_user_get = asnycHandler(
   async (req, res, next) => {
-    console.log(req.user.id);
-
     const [user, usersChats] = await Promise.all([
       Users.findById(req.user.id).populate("contacts").exec(),
       Chats.find({
@@ -75,41 +73,23 @@ exports.all_contacts_for_current_user_get = asnycHandler(
           $all: [req.user.id],
         },
       })
-        // .populate("users")
+
         .populate({
           path: "users",
           select: "username _id",
         })
         .exec(),
     ]);
-    // const chats = await Chats.find({ users: { $all: [req.user.id] } });
-    // const populatedChats = await Chats.populate(chats, { path: "users" });
-    // const populatedChats = await Chats.find()
-    //   .populate({
-    //     path: "users",
-    //     select: "username _id",
-    //   })
-    //   .exec();
-
-    // console.log(populatedChats[0].users);
-
-    console.log("USER", user);
-    console.log("CHATS", usersChats[0]);
 
     const allContacts = user.contacts;
+    console.log(usersChats);
 
-    // console.log("USER CHATS", usersChats);
     if (user === null) {
       console.log("user not found");
       res.sendStatus(204);
     }
-    // if (user.contacts === null) {
-    //   res.sendStatus(204);
-    // } else {
-    const test = "test";
-    res.json({ allContacts, test, usersChats });
-    // res.json({ message: "test" });
-    // }
+
+    res.json({ allContacts, usersChats });
   }
 );
 
