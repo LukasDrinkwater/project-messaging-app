@@ -8,23 +8,22 @@ export default function Messages() {
   const [userReceiver, setUserReceiver] = useState(undefined);
   const [currentChats, setCurrnentChats] = useState([]);
 
-  // useEffect(() => {
-  //   const getCurrentChats = async () => {
-  //     try {
-  //       const response = await axios({
-  //         method: "GET",
-  //         url: "/messages/allChats",
-  //         credentials: "true",
-  //       });
+  useEffect(() => {
+    const getCurrentChats = async () => {
+      try {
+        const response = await axios({
+          method: "GET",
+          url: "/chats/all-users-chats",
+          credentials: "true",
+        });
 
-  //       if (response.ok) {
-  //       }
-  //     } catch (error) {
-  //       console.log("Error getting all chats:", error);
-  //     }
-  //   };
-  //   getCurrentChats();
-  // }, []);
+        console.log(response.data);
+      } catch (error) {
+        console.log("Error getting all chats:", error);
+      }
+    };
+    getCurrentChats();
+  }, []);
 
   const handleNewChatClick = () => {
     navigate("/contacts");
