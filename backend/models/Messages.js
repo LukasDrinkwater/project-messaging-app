@@ -22,9 +22,6 @@ const MessageSchema = new Schema(
   { timestamps: true, toJSON: { virtuals: true } }
 );
 
-// MessageSchema.virtual("createdAtFormatted").get(() => {
-//   return format(this.createdAt, "dd/MM/yyyy HH:mm");
-// });
 MessageSchema.virtual("createdAtFormatted").get(function () {
   return format(this.updatedAt, "dd/MM/yyyy HH:mm");
 });
