@@ -146,6 +146,10 @@ table {
   flex: 1;
 }
 
+.addCursorPonter {
+  cursor: pointer;
+}
+
 /* HEADER AND FOOTER STYLES */
 
 .headerContainer {
