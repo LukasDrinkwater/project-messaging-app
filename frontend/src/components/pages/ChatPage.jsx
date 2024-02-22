@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import "./ChatPage.css";
 
 // Import components
 import Chat from "../single-components/chats/Chat";
@@ -10,10 +11,10 @@ export default function ChatPage() {
   const { chatId } = useParams();
   const [chatMessages, setChatMessages] = useState([]);
   const [userId, setUserId] = useState(null);
+  const [contact, setContact] = useState([]);
   // useEffect to get the chat from the url :chatId which comes from starting a new chat
   useEffect(() => {
     const getChat = async () => {
-      console.log("trig");
       try {
         const response = await axios({
           method: "GET",
@@ -23,12 +24,13 @@ export default function ChatPage() {
             "Content-Type": "application/json",
           },
         });
-        console.log("er");
-        console.log(response);
+
         // if reponse good assign data to state
+        console.log(response.data);
         if (response.data?.chatMessages.length > 0) {
           setChatMessages(response.data.chatMessages);
           setUserId(response.data.userId);
+          setContact(response.data.contact.username);
         }
 
         // if bad show error
@@ -47,7 +49,7 @@ export default function ChatPage() {
         {!chatMessages ? (
           <div>Loading Chat</div>
         ) : (
-          <Chat chatMessages={chatMessages} userId={userId} />
+          <Chat chatMessages={chatMessages} userId={userId} contact={contact} />
         )}
         <NewMessageForm />
         <div>ChatPage</div>
