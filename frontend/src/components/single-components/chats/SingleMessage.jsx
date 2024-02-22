@@ -11,9 +11,12 @@ export default function SingleMessage({ message, userId }) {
   return (
     <>
       <div className={messageClass}>
-        <p>{message.content}</p>
-        <p>{message.createdAtFormatted}</p>
-        <p>{message.sender.username}</p>
+        {/* if the message isnt from the user show the username */}
+        {message.sender.id !== userId && (
+          <p className="messageUserName">{message.sender.username}</p>
+        )}
+        <p className="messageContent">{message.content}</p>
+        <p className="messageDateTime">{message.createdAtFormatted}</p>
       </div>
     </>
   );
