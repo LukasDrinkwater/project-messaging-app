@@ -1,0 +1,53 @@
+.ChatContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.currentChatContact {
+  display: flex;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.user,
+.receiver {
+  max-width: 70%; /* adjust the width as needed */
+  margin-bottom: 10px;
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end; /* align user messages to the right */
+  background-color: #dcf8c6;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.user p {
+  text-align: end;
+}
+
+.receiver {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start; /* align receiver messages to the left */
+
+  background-color: #eaeaea;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.receiver p {
+  /* justify-content: flex-start; */
+  align-self: flex-start;
+  text-align: start;
+}
+
+.messageUserName {
+  font-weight: bold;
+}
+
+.messageDateTime {
+  font-size: 0.8rem;
+}
