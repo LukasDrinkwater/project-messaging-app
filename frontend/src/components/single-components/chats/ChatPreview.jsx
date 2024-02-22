@@ -19,7 +19,7 @@ export default function ChatPreview({ chat }) {
   return (
     <>
       <div
-        className="chatPreiewContainer addCursorPonter"
+        className="chatPreiewContainer addCursorPointer"
         onClick={handleGoToChatClick}
       >
         <p>{chat.contact.username}</p>
