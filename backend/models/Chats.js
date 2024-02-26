@@ -13,7 +13,7 @@ const ChatSchema = Schema(
   { timestamps: true, toJSON: { virtuals: true } }
 );
 
-ChatSchema.virtual("lastMessageTest").get(function () {
+ChatSchema.virtual("lastMessageFormatted").get(function () {
   return this.lastMessage;
 });
 
