@@ -82,7 +82,7 @@ exports.all_contacts_for_current_user_get = asnycHandler(
     ]);
 
     const allContacts = user.contacts;
-    console.log(usersChats);
+    // console.log(usersChats);
 
     if (user === null) {
       console.log("user not found");
