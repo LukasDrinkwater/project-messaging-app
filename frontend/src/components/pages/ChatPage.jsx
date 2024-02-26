@@ -47,7 +47,7 @@ export default function ChatPage() {
       <div className="chatPageContainer">
         {/* render component for chat. */}
         {!chatMessages ? (
-          <div>Loading Chat</div>
+          <p>Loading Chat</p>
         ) : (
           <Chat chatMessages={chatMessages} userId={userId} contact={contact} />
         )}
