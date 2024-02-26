@@ -19,6 +19,7 @@ const contactRouter = require("./routes/contactRoutes");
 const authRouter = require("./routes/authRoutes");
 const chatRouter = require("./routes/chatRoutes");
 const messageRouter = require("./routes/messageRoutes");
+const groupRouter = require("./routes/groupRoutes");
 
 // Import models
 const User = require("./models/Users");
@@ -99,6 +100,7 @@ app.use("/api/contacts", contactRouter);
 app.use("/authentication", authRouter);
 app.use("/api/chats", chatRouter);
 app.use("/api/message", messageRouter);
+app.use("/api/groups", groupRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
