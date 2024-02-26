@@ -14,7 +14,9 @@ import MessagesPage from "./components/pages/MessagesPage";
 import ChatPage from "./components/pages/ChatPage";
 import SignUpPage from "./components/pages/SignUpPage";
 import ContactsPage from "./components/pages/ContactsPage";
+import GroupPage from "./components/pages/GroupPage";
 import axios from "axios";
+import GroupChatPage from "./components/pages/GroupChatPage";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -55,11 +57,14 @@ function App() {
           <Routes>
             <Route path="/" Component={MessagesPage}></Route>
 
-            <Route path="/login" Component={LoginPage}></Route>
-            <Route path="/signup" Component={SignUpPage}></Route>
-            <Route path="/messages" Component={MessagesPage}></Route>
-            <Route path="/messages/:chatId" Component={ChatPage}></Route>
-            <Route path="/contacts" Component={ContactsPage}></Route>
+            <Route path="/login" Component={LoginPage} />
+            <Route path="/signup" Component={SignUpPage} />
+            <Route path="/messages" Component={MessagesPage} />
+            <Route path="/messages/:chatId" Component={ChatPage} />
+            <Route path="/contacts" Component={ContactsPage} />
+            <Route path="/groups" Component={GroupPage} />
+            <Route path="/groups/:groupId" Component={GroupChatPage} />
+            {/* <Route path="/groups/:groupId" Component={GroupChatPage}></Route> */}
             {/* <Route path="/contacts/add" ></Route> */}
           </Routes>
         </div>
