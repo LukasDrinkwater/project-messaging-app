@@ -13,7 +13,6 @@ export default function CreateGroupForm({
   const [groupName, setGroupName] = useState("");
   const [contactToAddId, setContactToAddId] = useState("");
   const [allContacts, setAllContacts] = useState([]);
-  // const [groupUsers, setGroupUsers] = useState([]);
 
   useEffect(() => {
     const getContacts = async () => {
@@ -26,7 +25,6 @@ export default function CreateGroupForm({
             "Content-Type": "application/json",
           },
         });
-        console.log(response.data);
 
         setAllContacts(response.data.allContacts);
       } catch (error) {
@@ -55,21 +53,24 @@ export default function CreateGroupForm({
     } catch (error) {
       console.log("Error adding user to group:", error);
     }
-    // console.log(e.target.value);
 
     const contactToAddId = e.target.value;
+  };
 
-    // If adding the user to the group was successfull, add the
-    // user to the group users preview
-    if (addGroup) {
-      console.log(allContacts);
-      const contactBeingAdded = allContacts.find(
-        (contact) => contact.id === contactToAddId
-      );
+  const handleAddUserClick = () => {
+    // console.log(allContacts);
 
-      setGroupUsers((prevArray) => [...prevArray, contactBeingAdded]);
-    }
-    console.log(groupUsers);
+    const userAlreadyAdded = groupUsers.some(
+      (user) => user.id === contactToAddId
+    );
+    if (userAlreadyAdded) return;
+
+    const contactBeingAdded = allContacts.find(
+      (contact) => contact.id === contactToAddId
+    );
+    if (contactBeingAdded === undefined) return;
+
+    setGroupUsers((prevArray) => [...prevArray, contactBeingAdded]);
   };
 
   const handleBackToGroupsClick = () => {
@@ -95,24 +96,33 @@ export default function CreateGroupForm({
               onChange={(e) => setGroupName(e.target.value)}
             />
           </div>
-          <div className="formGroup">
-            <label htmlFor="">Add Users</label>
-            <select
-              name="addContacts"
-              id="addContacts"
-              onChange={(e) => setContactToAddId(e.target.value)}
+          <div className="addUserFormContainer">
+            <div className="formGroup">
+              <label htmlFor="">Add Users</label>
+              <select
+                name="addContacts"
+                id="addContacts"
+                onChange={(e) => setContactToAddId(e.target.value)}
+              >
+                <option>Select a user</option>
+                {allContacts.map((contact) => {
+                  return (
+                    <option key={contact.id} value={contact.id}>
+                      {contact.username}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <button
+              type="button"
+              className="addUserButton"
+              onClick={handleAddUserClick}
             >
-              <option>Select a user</option>
-              {allContacts.map((contact) => {
-                return (
-                  <option key={contact.id} value={contact.id}>
-                    {contact.username}
-                  </option>
-                );
-              })}
-            </select>
+              Add User
+            </button>
           </div>
-          <button type="submit">Add user</button>
+          <button type="submit">Create Group</button>
         </form>
       </div>
       <div className="addedUsers">
