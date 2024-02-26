@@ -1,5 +1,5 @@
 const { body, validationResult } = require("express-validator");
-const asnycHandler = require("express-async-handler");
+const asyncHandler = require("express-async-handler");
 
 // Import models
 const Users = require("../models/Users");
@@ -13,7 +13,7 @@ exports.new_message_post = [
     .isLength({ min: 1 })
     .escape(),
 
-  asnycHandler(async (req, res, next) => {
+  asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     const chatId = req.body.chatId;
 
@@ -60,12 +60,12 @@ exports.new_message_post = [
   }),
 ];
 
-exports.get_user_message_preview = asnycHandler(async (req, res, next) => {
-  const userSender = req.params.userSender;
-  const userReceiver = req.params.userReceiver;
-});
+// exports.get_user_message_preview = asyncHandler(async (req, res, next) => {
+//   const userSender = req.params.userSender;
+//   const userReceiver = req.params.userReceiver;
+// });
 
-exports.new_user_message_post = asnycHandler(async (req, res, next) => {
-  const userSender = req.params.userSender;
-  const userReceiver = req.params.userReceiver;
-});
+// exports.new_user_message_post = asyncHandler(async (req, res, next) => {
+//   const userSender = req.params.userSender;
+//   const userReceiver = req.params.userReceiver;
+// });
