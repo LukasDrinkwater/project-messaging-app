@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./MessagesPage.css";
 import { useEffect, useState } from "react";
 
@@ -8,10 +8,6 @@ import ChatPreview from "../single-components/chats/ChatPreview";
 
 export default function MessagesPage() {
   const navigate = useNavigate();
-  // const [userReceiver, setUserReceiver] = useState(undefined);
-  // const [currentChats, setCurrnentChats] = useState([]);
-  // const [allUserChats, setAllUserChats] = useState([]);
-  // const [usersContacts, setUsersContacts] = useState([]);
   const [matchedChats, setMatchedChats] = useState([]);
 
   useEffect(() => {
@@ -30,8 +26,6 @@ export default function MessagesPage() {
         console.log(response.data.matchedChats);
 
         if (response.data.allChats?.length > 0) {
-          // setAllUserChats(response.data.allChats);
-          // setUsersContacts(response.data.usersContacts);
           setMatchedChats(response.data.matchedChats);
         }
       } catch (error) {
@@ -40,10 +34,6 @@ export default function MessagesPage() {
     };
     getCurrentChats();
   }, []);
-
-  const handleNewChatClick = () => {
-    navigate("/contacts");
-  };
 
   return (
     <>
@@ -58,7 +48,6 @@ export default function MessagesPage() {
               <p>chat previews</p>
             </>
           ) : (
-            // render new chat button
             <>
               <p>
                 You dont have any chats, click Start New Chat to get chatting!
@@ -71,7 +60,9 @@ export default function MessagesPage() {
           <p>messages</p>
         </div>
         <div className="newChatButton">
-          <button onClick={handleNewChatClick}>Start new chat</button>
+          <Link to={"/contacts"}>
+            <button>Start new chat</button>
+          </Link>
         </div>
       </div>
     </>
