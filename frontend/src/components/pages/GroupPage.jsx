@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
-import CreateGroupForm from "../single-components/forms/CreateGroupForm";
+import CreateGroupForm from "../single-components/forms/group_forms/CreateGroupForm";
 import GroupUsers from "../single-components/groups/GroupUsers";
 import GroupPreview from "../single-components/groups/GroupPreview";
 
@@ -25,7 +24,7 @@ export default function GroupPage() {
             "Content-Type": "application/json",
           },
         });
-        console.log(response);
+
         setUsersGroups(response.data.usersGroups);
       } catch (error) {
         console.log("Error getting all user groups:", error);
@@ -36,7 +35,7 @@ export default function GroupPage() {
     if (!addGroup) {
       getUserGroups();
     }
-  }, []);
+  }, [addGroup]);
 
   const handleCreateNewGroupButtonClick = () => {
     setAddGroup(!addGroup);
