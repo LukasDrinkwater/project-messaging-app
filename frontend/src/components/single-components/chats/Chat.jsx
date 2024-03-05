@@ -14,7 +14,7 @@ export default function Chat({ chatMessages, userId, contact }) {
             <SingleMessage key={message.id} message={message} userId={userId} />
           ))
         ) : (
-          <p>be the first the message.</p>
+          <p>Be the first to message.</p>
         )}
       </div>
     </>
