@@ -12,6 +12,9 @@ export default function ChatPage() {
   const [chatMessages, setChatMessages] = useState([]);
   const [userId, setUserId] = useState(null);
   const [contact, setContact] = useState([]);
+  // newMessagePosted triggered a rerender when the user has posted a new message
+  const [newMessagePosted, setNewMessagePosted] = useState(false);
+
   // useEffect to get the chat from the url :chatId which comes from starting a new chat
   useEffect(() => {
     const getChat = async () => {
@@ -26,7 +29,6 @@ export default function ChatPage() {
         });
 
         // if reponse good assign data to state
-        console.log(response.data);
         if (response.data?.chatMessages.length > 0) {
           setChatMessages(response.data.chatMessages);
           setUserId(response.data.userId);
@@ -40,7 +42,7 @@ export default function ChatPage() {
     };
 
     getChat();
-  }, []);
+  }, [newMessagePosted]);
 
   return (
     <>
@@ -51,7 +53,10 @@ export default function ChatPage() {
         ) : (
           <Chat chatMessages={chatMessages} userId={userId} contact={contact} />
         )}
-        <NewMessageForm />
+        <NewMessageForm
+          newMessagePosted={newMessagePosted}
+          setNewMessagePosted={setNewMessagePosted}
+        />
         <div>ChatPage</div>
       </div>
     </>
