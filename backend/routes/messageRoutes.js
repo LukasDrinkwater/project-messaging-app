@@ -9,4 +9,7 @@ const messageContoller = require("../controllers/messageController");
 // POST new message from chat
 router.post("/new-message", messageContoller.new_message_post);
 
+// POST new group message
+router.post("/new-group-message", messageContoller.new_group_message_post);
+
 module.exports = router;
