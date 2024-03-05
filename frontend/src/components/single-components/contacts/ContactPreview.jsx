@@ -65,7 +65,9 @@ export default function ContactPreview({ contact, usersChats }) {
           </div>
         )}
         <div className="editContactButton">
-          <button>EDIT CONTACT</button>
+          <Link to={`${contactId}/edit`}>
+            <button>EDIT CONTACT</button>
+          </Link>
         </div>
       </div>
     </>
