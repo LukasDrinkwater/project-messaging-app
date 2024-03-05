@@ -11,7 +11,11 @@ const MessageSchema = new Schema(
     //   ref: "User",
     //   required: false,
     // },
-    chat: { type: mongoose.Schema.Types.ObjectId, ref: "Chat" },
+    chat: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Chat",
+      required: false,
+    },
     group: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Group",
