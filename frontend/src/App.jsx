@@ -1,5 +1,6 @@
 import { useState, createContext, useEffect } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import axios from "axios";
 
 import "./App.css";
 
@@ -15,8 +16,8 @@ import ChatPage from "./components/pages/ChatPage";
 import SignUpPage from "./components/pages/SignUpPage";
 import ContactsPage from "./components/pages/ContactsPage";
 import GroupPage from "./components/pages/GroupPage";
-import axios from "axios";
 import GroupChatPage from "./components/pages/GroupChatPage";
+import GroupEditPage from "./components/pages/GroupEditPage";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -64,6 +65,7 @@ function App() {
             <Route path="/contacts" Component={ContactsPage} />
             <Route path="/groups" Component={GroupPage} />
             <Route path="/groups/:groupId" Component={GroupChatPage} />
+            <Route path="/groups/:groupId/edit" Component={GroupEditPage} />
             {/* <Route path="/groups/:groupId" Component={GroupChatPage}></Route> */}
             {/* <Route path="/contacts/add" ></Route> */}
           </Routes>
