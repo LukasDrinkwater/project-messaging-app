@@ -1,29 +1,12 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-export default function EditGroupUsers({ currentGroupUsers }) {
+export default function EditGroupUsers({
+  currentGroupUsers,
+  groupEdited,
+  setGroupEdited,
+}) {
   const { groupId } = useParams();
-  // const [allGroupUsers, setAllGroupUsers] = useState([]);
-
-  // useEffect(() => {
-  //   const getAllGroupUsers = async () => {
-  //     try {
-  //       const response = await axios({
-  //         method: "GET",
-  //         url: `/api/groups/${groupId}/users`,
-  //         withCredentials: true,
-  //       });
-
-  //       console.log(response.data);
-  //       setAllGroupUsers(response.data.allGroupUsers);
-  //     } catch (error) {
-  //       console.log("Error getting all group users when editing group", error);
-  //     }
-  //   };
-
-  //   getAllGroupUsers();
-  // }, []);
 
   const handleRemoveUserClick = async (userId) => {
     // api request to remove the user from the group
@@ -31,10 +14,10 @@ export default function EditGroupUsers({ currentGroupUsers }) {
     try {
       const response = await axios({
         method: "DELETE",
-        url: `/api/groups/${groupId}/users/${userId}`,
+        url: `/api/groups/${groupId}/users/${userId}/remove-user`,
         withCredentials: true,
       });
-
+      setGroupEdited(!groupEdited);
       console.log(response.data);
     } catch (error) {
       console.log("Error removing user from group:", error);
@@ -43,6 +26,9 @@ export default function EditGroupUsers({ currentGroupUsers }) {
   return (
     <div>
       <div className="editGroupUsers">
+        <div className="groupUsersHeading">
+          <h2>Current users</h2>
+        </div>
         {currentGroupUsers.map((user) => (
           <div className="groupUser" key={user.id}>
             <div className="name">
