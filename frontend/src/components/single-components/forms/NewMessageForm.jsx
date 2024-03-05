@@ -2,7 +2,10 @@ import axios from "axios";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-export default function NewMessageForm() {
+export default function NewMessageForm({
+  newMessagePosted,
+  setNewMessagePosted,
+}) {
   const { chatId } = useParams();
   const [message, setMessage] = useState("");
   // sender
@@ -23,7 +26,9 @@ export default function NewMessageForm() {
         },
       });
 
-      console.log("message sent");
+      // set newMessagPosted to opposite
+      setNewMessagePosted(!newMessagePosted);
+      setMessage("");
     } catch (error) {
       console.log("Error submitting new message form:", error);
     }
