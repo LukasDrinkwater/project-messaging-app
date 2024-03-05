@@ -27,7 +27,10 @@ exports.all_users_chats_get = asyncHandler(async (req, res, next) => {
     Users.findById(userId).populate("contacts").exec(),
   ]);
 
-  // link chat to contact and create new array
+  // link chat to contact and create new array.
+  // Links the chat and contact. Creates a new object that has chatId, lastMessage, contact obj,
+  // and updatedAtFormatted. I do this so I dont have to link them on the front end.
+  // Works for  chats because its just the user and 1 contact in the Chat model array.
   const matchedChats = allChats.map((chat) => {
     // Find the contact that matches a user in the chat that is not the current user
     const matchedContact = chat.users
@@ -44,8 +47,6 @@ exports.all_users_chats_get = asyncHandler(async (req, res, next) => {
       updatedAtFormatted: chat.updatedAtFormatted,
     };
   });
-
-  // console.log(matchedChats);
 
   if (allChats === null) {
     res.status(204).json({ message: "no chats found" });
@@ -81,7 +82,7 @@ exports.create_new_chat_post = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.user_specfic_chat_get = asyncHandler(async (req, res, next) => {
+exports.user_specific_chat_get = asyncHandler(async (req, res, next) => {
   console.log(req.params.chatId);
   const chatId = req.params.chatId;
   const userId = req.user.id;
