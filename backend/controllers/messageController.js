@@ -41,7 +41,6 @@ exports.new_message_post = [
       const updatedChat = await Chats.findOneAndUpdate(
         { _id: chatId },
         {
-          $push: { messages: newMessage },
           $set: {
             lastMessage: newMessage.content,
           },
@@ -60,12 +59,53 @@ exports.new_message_post = [
   }),
 ];
 
-// exports.get_user_message_preview = asyncHandler(async (req, res, next) => {
-//   const userSender = req.params.userSender;
-//   const userReceiver = req.params.userReceiver;
-// });
+exports.new_group_message_post = [
+  body("content", "The message must be at least 1 character long.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
 
-// exports.new_user_message_post = asyncHandler(async (req, res, next) => {
-//   const userSender = req.params.userSender;
-//   const userReceiver = req.params.userReceiver;
-// });
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    const groupId = req.body.groupId;
+
+    const group = await Groups.findById(groupId).exec();
+
+    if (group === null) {
+      return res.sendStatus(400);
+    }
+
+    if (!errors.isEmpty()) {
+      return res.sendStatus(400);
+    }
+
+    // create new group message
+    const newMessage = new Messages({
+      sender: req.user.id,
+      content: req.body.content,
+      group: groupId,
+    });
+
+    await newMessage.save();
+
+    // Update the group last message
+    const updatedGroup = await Groups.findByIdAndUpdate(
+      groupId,
+      {
+        $set: {
+          lastMessage: newMessage.content,
+        },
+      },
+      { new: true }
+    );
+
+    if (updatedGroup === null) {
+      return res
+        .status(204)
+        .json({ error: "Couldn't find the group to update" });
+    }
+
+    // last message was updated
+    res.sendStatus(201);
+  }),
+];
