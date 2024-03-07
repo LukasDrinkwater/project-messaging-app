@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./MessagesPage.css";
 import { useEffect, useState } from "react";
 
@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import ChatPreview from "../single-components/chats/ChatPreview";
 
 export default function MessagesPage() {
-  const navigate = useNavigate();
   const [matchedChats, setMatchedChats] = useState([]);
 
   useEffect(() => {
