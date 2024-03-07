@@ -171,5 +171,16 @@ exports.patch_update_specific_group_name = [
       res.sendStatus(400);
       return;
     }
+
+    const groupId = req.params.groupId;
+    const newGroupname = req.body.groupName;
+    const group = await Groups.findByIdAndUpdate(groupId, {
+      name: newGroupname,
+    });
+
+    if (group === null) {
+      res.status(204).send("Group not found.");
+    }
+    console.log("here");
   }),
 ];
