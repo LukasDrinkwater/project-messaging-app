@@ -23,7 +23,7 @@ export default function ChatPreview({ chat }) {
         onClick={handleGoToChatClick}
       >
         <p>{chat.contact.username}</p>
-        <p>{chat.lastMessage}</p>
+        <p>{chat.lastMessageFormatted}</p>
         <p>Last message: {chat.updatedAtFormatted}</p>
       </div>
     </>
