@@ -19,7 +19,6 @@ export default function GroupChatPage() {
   // useEffect, api request, get the group from the url :groupId
 
   useEffect(() => {
-    console.log("groupchatpage trigger");
     const getGroupchat = async () => {
       try {
         const response = await axios({
@@ -27,8 +26,7 @@ export default function GroupChatPage() {
           url: `/api/groups/${groupId}`,
           withCredentials: true,
         });
-        console.log("er");
-        console.log(response);
+
         setGroupChatMessages(response.data.groupChatMessages);
         setUserId(response.data.userId);
         setGroupChatName(response.data.groupChat.name);
