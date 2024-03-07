@@ -46,7 +46,7 @@ export default function ContactPreview({ contact, usersChats }) {
     e.preventDefault();
 
     try {
-      const response = await axios({
+      await axios({
         method: "DELETE",
         url: `/api/contacts/${contact.id}/remove-contact`,
         withCredentials: true,
