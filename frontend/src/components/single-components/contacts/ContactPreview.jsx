@@ -41,6 +41,21 @@ export default function ContactPreview({ contact, usersChats }) {
 
   const currentContactChatId = currentContactChat?.id;
 
+  // Remove contact handler function
+  const handleRemoveContact = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios({
+        method: "DELETE",
+        url: `/api/contacts/${contact.id}/remove-contact`,
+        withCredentials: true,
+      });
+    } catch (error) {
+      console.log("Error removing contact:", error);
+    }
+  };
+
   return (
     <>
       <div className="contactPreview">
@@ -53,21 +68,17 @@ export default function ContactPreview({ contact, usersChats }) {
         <div className="contactPreviewMessage">
           {/* <p>{contact.messages.content}</p> */}
           {/* need to update so it gets the lastMessage from the chat */}
-          <p>show latest message</p>
+          <p>{currentContactChat.lastMessageFormatted}</p>
         </div>
         {currentContactChatExist ? (
-          <Link to={`/messages/${currentContactChatId}`}>
-            Go to chat {currentContactChatId}
-          </Link>
+          <Link to={`/messages/${currentContactChatId}`}>Go to chat</Link>
         ) : (
           <div className="startChatButton">
             <button onClick={startNewChat}>Start Chat</button>
           </div>
         )}
-        <div className="editContactButton">
-          <Link to={`${contactId}/edit`}>
-            <button>EDIT CONTACT</button>
-          </Link>
+        <div className="removeContactButton">
+          <button onClick={handleRemoveContact}>Remove contact</button>
         </div>
       </div>
     </>
