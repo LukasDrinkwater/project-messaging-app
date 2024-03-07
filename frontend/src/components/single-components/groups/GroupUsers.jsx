@@ -3,7 +3,6 @@ export default function GroupUsers({
 
   createGroup = false,
 }) {
-  console.log(groupUsers);
   return (
     <>
       <div className="groupUsersContainer">
