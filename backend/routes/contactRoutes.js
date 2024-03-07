@@ -15,4 +15,10 @@ router.get(
   contactController.all_contacts_for_current_user_get
 );
 
+// DELETE contact from user contacts
+router.delete(
+  "/:contactId/remove-contact",
+  contactController.delete_specific_contact
+);
+
 module.exports = router;
