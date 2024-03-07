@@ -43,6 +43,7 @@ exports.all_users_chats_get = asyncHandler(async (req, res, next) => {
     return {
       chatId: chat.id,
       lastMessage: chat.lastMessage,
+      lastMessageFormatted: chat.lastMessageFormatted,
       contact: matchedContact, // This assumes there's always a match; consider handling cases where there might not be
       updatedAtFormatted: chat.updatedAtFormatted,
     };
