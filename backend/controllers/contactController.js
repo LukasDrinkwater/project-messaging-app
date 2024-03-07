@@ -1,5 +1,5 @@
 const { body, validationResult } = require("express-validator");
-const asnycHandler = require("express-async-handler");
+const asyncHandler = require("express-async-handler");
 
 const Users = require("../models/Users");
 const Chats = require("../models/Chats");
@@ -12,7 +12,7 @@ exports.add_new_contact_post = [
     .isLength({ min: 1 })
     .escape(),
 
-  asnycHandler(async (req, res, next) => {
+  asyncHandler(async (req, res, next) => {
     // console.log(req.user);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -64,7 +64,7 @@ exports.add_new_contact_post = [
 ];
 
 // GET all contacts for current user
-exports.all_contacts_for_current_user_get = asnycHandler(
+exports.all_contacts_for_current_user_get = asyncHandler(
   async (req, res, next) => {
     const [user, usersChats] = await Promise.all([
       Users.findById(req.user.id).populate("contacts").exec(),
@@ -88,11 +88,29 @@ exports.all_contacts_for_current_user_get = asnycHandler(
       console.log("user not found");
       res.sendStatus(204);
     }
-
+    console.log("users chats", usersChats);
     res.json({ allContacts, usersChats });
   }
 );
 
-exports.test = asnycHandler(async (req, res, next) => {
+// DELETE contact from user contacts
+exports.delete_specific_contact = asyncHandler(async (req, res, next) => {
+  const contactId = req.params.contactId;
+  const userId = req.user.id;
+
+  const user = await Users.findByIdAndUpdate(userId, {
+    $pull: {
+      contacts: contactId,
+    },
+  });
+
+  if (user === null) {
+    res.status(204).send("Can't find user.");
+  }
+
+  res.status(200).send("Contact removed from contacts");
+});
+
+exports.test = asyncHandler(async (req, res, next) => {
   res.json({ message: "working" });
 });
