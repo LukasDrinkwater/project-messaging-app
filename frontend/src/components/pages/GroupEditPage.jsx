@@ -37,12 +37,13 @@ export default function GroupEditPage() {
         <div className="editGroupBackButton">
           <button onClick={() => navigate(-1)}>Back to group chat.</button>
         </div>
-        <EditGroupUsers
+
+        <EditGroupForm
           currentGroupUsers={currentGroupUsers}
           groupEdited={groupEdited}
           setGroupEdited={setGroupEdited}
         />
-        <EditGroupForm
+        <EditGroupUsers
           currentGroupUsers={currentGroupUsers}
           groupEdited={groupEdited}
           setGroupEdited={setGroupEdited}
