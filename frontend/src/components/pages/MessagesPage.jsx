@@ -11,7 +11,6 @@ export default function MessagesPage() {
   const [matchedChats, setMatchedChats] = useState([]);
 
   useEffect(() => {
-    console.log("trig");
     const getCurrentChats = async () => {
       try {
         const response = await axios({
@@ -22,8 +21,6 @@ export default function MessagesPage() {
             "Content-Type": "application/json",
           },
         });
-
-        console.log(response.data.matchedChats);
 
         if (response.data.allChats?.length > 0) {
           setMatchedChats(response.data.matchedChats);
