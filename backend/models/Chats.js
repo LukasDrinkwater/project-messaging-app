@@ -14,6 +14,9 @@ const ChatSchema = Schema(
 );
 
 ChatSchema.virtual("lastMessageFormatted").get(function () {
+  if (this.lastMessage.length > 30) {
+    return this.lastMessage.substring(0, 30) + "...";
+  }
   return this.lastMessage;
 });
 
