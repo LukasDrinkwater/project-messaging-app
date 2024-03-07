@@ -86,7 +86,8 @@ export default function EditGroupForm({
     }
   };
 
-  const handleUpdateGroupName = async () => {
+  const handleUpdateGroupName = async (e) => {
+    e.preventDefault();
     try {
       await axios({
         method: "PATCH",
@@ -104,7 +105,7 @@ export default function EditGroupForm({
       <div className="editGroupContainer">
         <form>
           <div className="formGroup">
-            <label htmlFor="groupName"> </label>
+            <label htmlFor="groupName">Group name. </label>
             <input
               type="text"
               name="groupName"
