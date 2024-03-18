@@ -1,0 +1,61 @@
+.groupChatContainer {
+  /* align-items: center; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.groupChats {
+  display: flex;
+  flex-direction: column;
+
+  width: clamp(300px, 100vw, 600px);
+  min-height: 300px;
+  max-height: 800px;
+
+  /* height: auto; Allow height to adjust based on content */
+  overflow-y: auto;
+}
+
+.user,
+.receiver {
+  max-width: 70%; /* adjust the width as needed */
+  margin-bottom: 10px;
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end; /* align user messages to the right */
+  background-color: #dcf8c6;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.user p {
+  text-align: end;
+}
+
+.receiver {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start; /* align receiver messages to the left */
+
+  background-color: #eaeaea;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.receiver p {
+  /* justify-content: flex-start; */
+  align-self: flex-start;
+  text-align: start;
+}
+
+/* GROUP CHAT USERS */
+
+.groupUsersContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
