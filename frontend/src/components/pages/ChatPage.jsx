@@ -57,7 +57,6 @@ export default function ChatPage() {
           newMessagePosted={newMessagePosted}
           setNewMessagePosted={setNewMessagePosted}
         />
-        <div>ChatPage</div>
       </div>
     </>
   );
