@@ -1,12 +1,13 @@
-import { useState } from "react";
-
 // Import components
 import SignUpForm from "../single-components/forms/SignUpForm";
 
 export default function SignUpPage() {
   return (
     <>
-      <SignUpForm />
+      <div className="signUpPageContainer">
+        <p>Sign up to start chatting!</p>
+        <SignUpForm />
+      </div>
     </>
   );
 }
