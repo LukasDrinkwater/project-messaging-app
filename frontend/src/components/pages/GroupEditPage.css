@@ -1,0 +1,20 @@
+.editGroupBackButton {
+  margin: 5px 0 0 0;
+}
+
+#groupname {
+  margin-bottom: 5px;
+}
+
+.groupUsersHeading h2 {
+  font-size: 30px;
+}
+
+.name p {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.name {
+  margin: 5px 0 5px 0;
+}
