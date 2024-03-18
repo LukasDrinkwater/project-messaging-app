@@ -5,6 +5,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import EditGroupUsers from "../single-components/groups/edit_group/EditGroupUsers";
 import EditGroupForm from "../single-components/forms/group_forms/EditGroupForm";
 
+import "./GroupEditPage.css";
+
 export default function GroupEditPage() {
   const { groupId } = useParams();
   const navigate = useNavigate();
