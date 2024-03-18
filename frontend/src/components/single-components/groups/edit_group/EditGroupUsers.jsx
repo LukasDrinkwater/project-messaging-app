@@ -24,24 +24,22 @@ export default function EditGroupUsers({
     }
   };
   return (
-    <div>
-      <div className="editGroupUsers">
-        <div className="groupUsersHeading">
-          <h2>Current users</h2>
-        </div>
-        {currentGroupUsers.map((user) => (
-          <div className="groupUser" key={user.id}>
-            <div className="name">
-              <p>{user.username}</p>
-            </div>
-            <div className="removeUserButton">
-              <button onClick={() => handleRemoveUserClick(user.id)}>
-                Remove user
-              </button>
-            </div>
-          </div>
-        ))}
+    <div className="editGroupUsers">
+      <div className="groupUsersHeading">
+        <h2>Current users</h2>
       </div>
+      {currentGroupUsers.map((user) => (
+        <div className="groupUser" key={user.id}>
+          <div className="name">
+            <p>{user.username}</p>
+          </div>
+          <div className="removeUserButton">
+            <button onClick={() => handleRemoveUserClick(user.id)}>
+              Remove user
+            </button>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
