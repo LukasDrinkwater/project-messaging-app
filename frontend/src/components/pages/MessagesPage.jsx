@@ -41,7 +41,6 @@ export default function MessagesPage() {
               {matchedChats.map((chat) => (
                 <ChatPreview key={chat.chatId} chat={chat} />
               ))}
-              <p>chat previews</p>
             </>
           ) : (
             <>
@@ -51,10 +50,7 @@ export default function MessagesPage() {
             </>
           )}
         </div>
-        <div className="messageFeed">
-          {/* map and display messages */}
-          <p>messages</p>
-        </div>
+        <div className="messageFeed">{/* map and display messages */}</div>
         <div className="newChatButton">
           <Link to={"/contacts"}>
             <button>Start new chat</button>
