@@ -4,9 +4,6 @@ import axios from "axios";
 
 import "./App.css";
 
-// Create context
-export const LoginContext = createContext();
-
 // Import component pages
 import Footer from "./components/single-components/single_use/Footer";
 import Header from "./components/single-components/single_use/Header";
@@ -18,6 +15,9 @@ import ContactsPage from "./components/pages/ContactsPage";
 import GroupPage from "./components/pages/GroupPage";
 import GroupChatPage from "./components/pages/GroupChatPage";
 import GroupEditPage from "./components/pages/GroupEditPage";
+
+// Create context
+export const LoginContext = createContext();
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -57,7 +57,6 @@ function App() {
         <div className="content">
           <Routes>
             <Route path="/" Component={MessagesPage}></Route>
-
             <Route path="/login" Component={LoginPage} />
             <Route path="/signup" Component={SignUpPage} />
             <Route path="/messages" Component={MessagesPage} />
@@ -66,8 +65,6 @@ function App() {
             <Route path="/groups" Component={GroupPage} />
             <Route path="/groups/:groupId" Component={GroupChatPage} />
             <Route path="/groups/:groupId/edit" Component={GroupEditPage} />
-            {/* <Route path="/groups/:groupId" Component={GroupChatPage}></Route> */}
-            {/* <Route path="/contacts/add" ></Route> */}
           </Routes>
         </div>
         <Footer />
