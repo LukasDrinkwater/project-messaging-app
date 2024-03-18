@@ -7,6 +7,8 @@ import NewGroupMessageForm from "../single-components/forms/NewGroupMessageForm"
 import EditGroupButton from "../single-components/groups/edit_group/EditGroupButton";
 import GroupUsers from "../single-components/groups/GroupUsers";
 
+import "./GroupChatPage.css";
+
 export default function GroupChatPage() {
   const { groupId } = useParams();
   const [groupChatMessages, setGroupChatMessages] = useState([]);
@@ -41,7 +43,7 @@ export default function GroupChatPage() {
 
   return (
     <>
-      <div className="groupChatContinaer">
+      <div className="groupChatContainer">
         {groupChatMessages ? (
           <GroupChat
             groupChatMessages={groupChatMessages}
