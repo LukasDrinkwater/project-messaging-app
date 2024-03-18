@@ -1,3 +1,36 @@
-.contactPreview {
-  border: 2px solid red;
+.messagePageContainer {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.currentChats {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+}
+
+.chatPreviewContainer {
+  border: 3px solid #0047a6;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 5px 0 5px 0;
+  transition: 0.3s;
+
+  max-width: 500px;
+}
+
+.chatPreviewContainer:hover {
+  background-color: #0096c7;
+  /* background-color: #0047a6; */
+}
+
+.chatPreviewContainer p {
+  margin: 5px;
+}
+
+.chatPreviewContainer p:nth-child(1) {
+  font-size: 22px;
+  font-weight: 400;
 }
