@@ -7,7 +7,7 @@ export default function GroupChat({
 }) {
   return (
     <>
-      <div className="groupChatContainer">
+      <div className="groupChats">
         <div className="groupChatName">
           <h1>{groupChatName}</h1>
         </div>
