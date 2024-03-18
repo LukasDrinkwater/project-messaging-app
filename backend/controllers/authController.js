@@ -19,7 +19,7 @@ exports.check_if_user_logged_in = asnycHandler(async (req, res, next) => {
     res.status(200).json({ loggedIn: true });
   } else {
     console.log("not logged in");
-    res.json({ loggedIn: false }).send();
+    res.json({ loggedIn: false });
   }
 });
 
