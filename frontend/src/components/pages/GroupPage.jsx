@@ -1,3 +1,5 @@
+import "./GroupPage.css";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -43,33 +45,35 @@ export default function GroupPage() {
 
   return (
     <>
-      {/* loop through the groups */}
-      <div>GroupPage</div>
-      {/* button in Link to go to add group page */}
-      {addGroup ? (
-        <>
-          <CreateGroupForm
-            addGroup={addGroup}
-            setAddGroup={setAddGroup}
-            groupUsers={groupUsers}
-            setGroupUsers={setGroupUsers}
-          />
-          <GroupUsers groupUsers={groupUsers} setGroupUsers={setGroupUsers} />
-        </>
-      ) : (
-        <>
-          <div className="groupPreviews">
-            {usersGroups.map((group) => (
-              <GroupPreview key={group.id} group={group} />
-            ))}
-          </div>
-          <div className="addGroupButton">
-            <button onClick={handleCreateNewGroupButtonClick}>
-              Create a new group
-            </button>
-          </div>
-        </>
-      )}
+      <div className="groupPageContainer">
+        {/* loop through the groups */}
+        <div>GroupPage</div>
+        {/* button in Link to go to add group page */}
+        {addGroup ? (
+          <>
+            <CreateGroupForm
+              addGroup={addGroup}
+              setAddGroup={setAddGroup}
+              groupUsers={groupUsers}
+              setGroupUsers={setGroupUsers}
+            />
+            <GroupUsers groupUsers={groupUsers} setGroupUsers={setGroupUsers} />
+          </>
+        ) : (
+          <>
+            <div className="groupPreviews">
+              {usersGroups.map((group) => (
+                <GroupPreview key={group.id} group={group} />
+              ))}
+            </div>
+            <div className="addGroupButton">
+              <button onClick={handleCreateNewGroupButtonClick}>
+                Create a new group
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </>
   );
 }
