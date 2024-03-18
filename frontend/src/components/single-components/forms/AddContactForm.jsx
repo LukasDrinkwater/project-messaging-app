@@ -41,16 +41,15 @@ export default function AddContactForm() {
       <div className="addContactForm">
         <form action="">
           <div className="formGroup">
-            <label htmlFor="usernameToAdd">
-              <input
-                type="text"
-                name="usernameToAdd"
-                id="usernameToAdd"
-                placeholder=""
-                value={usernameToAdd}
-                onChange={(e) => setUsernameToAdd(e.target.value)}
-              />
-            </label>
+            <label htmlFor="usernameToAdd"> Username:</label>
+            <input
+              type="text"
+              name="usernameToAdd"
+              id="usernameToAdd"
+              placeholder=""
+              value={usernameToAdd}
+              onChange={(e) => setUsernameToAdd(e.target.value)}
+            />
           </div>
           <button onClick={handleAddContactSubmit}>Add contact</button>
         </form>
