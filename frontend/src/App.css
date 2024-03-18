@@ -4,6 +4,9 @@
    License: none (public domain)
 */
 
+/* Import the Google Font */
+@import url("https://fonts.googleapis.com/css2?family=Ojuju&display=swap");
+
 html,
 body,
 div,
@@ -141,9 +144,43 @@ table {
 
 /* MAIN CONTENT GLOBAL STYLES */
 .content {
-  background-color: #00bbc3;
+  /* background-color: #00bbc3; */
   display: flex;
   flex: 1;
+}
+
+/* GLOBAL BUTTON STYLES */
+
+button {
+  border-radius: 10px;
+  border: 2px solid transparent;
+  padding: 10px;
+  /* padding: 0.6em 1.2em; */
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #f0f0f0;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #00bbc3;
+  }
 }
 
 .addCursorPointer {
@@ -152,10 +189,102 @@ table {
 
 /* HEADER AND FOOTER STYLES */
 
+.ojuju > {
+  font-family: "Ojuju", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.logo p {
+  font-family: "Ojuju", sans-serif; /* Use the font family name */
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-size: 3rem;
+  font-style: normal;
+}
+
 .headerContainer {
   background-color: #0047a6;
 }
 
+.loginLogoutContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.loginLogoutContainer > * {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  background-color: #00bbc3;
+}
+
+.loginLogoutContainer a {
+  text-decoration: none;
+  color: black;
+}
+
+.loginLogoutContainer div:hover {
+  background-color: #0096c7;
+  color: black;
+}
+
+.logoutButton {
+  padding: 0px;
+}
+
+/* FOOTER */
 .footerContainer {
   background-color: #0047a6;
+  display: flex;
+  justify-content: center;
+}
+
+.footerContainer > * {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  background-color: #00bbc3;
+  text-decoration: none;
+  color: black;
+}
+
+.footerContainer a:hover {
+  background-color: #0096c7;
+  color: black;
+}
+
+.footerContainer a.active {
+  background-color: #0096c7;
+}
+
+/* CONTENT / MAIN BODY */
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* GLOBAL FORM STYLES */
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0 0.5rem 0;
+}
+
+.formGroup input {
+  margin: 0.25rem 0 0;
+  padding: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  max-width: 200px;
 }
