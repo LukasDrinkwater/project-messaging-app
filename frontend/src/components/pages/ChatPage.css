@@ -1,10 +1,25 @@
+.chatPageContainer {
+  /* align-items: center; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .ChatContainer {
   display: flex;
   flex-direction: column;
+  /* max-width: 600px; */
+  width: clamp(300px, 100vw, 600px);
+  min-height: 300px;
+  max-height: 800px;
+
+  /* height: auto; Allow height to adjust based on content */
+  overflow-y: auto;
 }
 
 .currentChatContact {
   display: flex;
+  align-self: center;
   font-size: 1.5rem;
   font-weight: bold;
 }
