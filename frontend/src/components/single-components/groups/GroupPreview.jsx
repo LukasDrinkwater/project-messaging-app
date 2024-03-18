@@ -9,7 +9,11 @@ export default function GroupPreview({ group }) {
             <p>{group.name}</p>
           </div>
           <div className="groupLastMessage">
-            <p>{group.lastMessage}</p>
+            {group.lastMessageFormatted ? (
+              <p>{group.lastMessageFormatted}</p>
+            ) : (
+              <p>No messages, be the first to send a message.</p>
+            )}
           </div>
         </Link>
       </div>
