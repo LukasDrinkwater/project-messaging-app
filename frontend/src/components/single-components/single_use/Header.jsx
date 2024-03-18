@@ -32,7 +32,7 @@ export default function Header() {
     <>
       <div className="headerContainer">
         <div className="logo">
-          <p>MESSAGING APP LOGO</p>
+          <p>GET CHATTING</p>
         </div>
         <div className="loginLogoutContainer">
           {loggedIn ? (
