@@ -6,7 +6,7 @@ export default function GroupUsers({
   return (
     <>
       <div className="groupUsersContainer">
-        group users
+        <p>Current users in the group chat:</p>
         {!createGroup ? (
           <>
             {groupUsers?.length > 0 ? (
