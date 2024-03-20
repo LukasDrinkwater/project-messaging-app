@@ -1,13 +1,15 @@
 import { useContext } from "react";
 import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
-import { LoginContext } from "../../../App";
+// import { LoginContext } from "../../../App";
+import LoginContext from "../../context/LoginContext";
 
 export default function Header() {
   const navigate = useNavigate();
 
-  const [loggedIn, setLoggedIn] = useContext(LoginContext);
+  // const [loggedIn, setLoggedIn] = useContext(LoginContext);
 
+  const { loggedIn, setLoggedIn } = useContext(LoginContext);
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
