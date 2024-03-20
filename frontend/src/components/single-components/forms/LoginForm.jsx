@@ -2,13 +2,14 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { LoginContext } from "../../../App";
+import LoginContext from "../../context/LoginContext";
 
 export default function LoginForm() {
   const navigate = useNavigate();
 
   // Logged in state
-  const [loggedIn, setLoggedIn] = useContext(LoginContext);
+  // Destructure the state and set state for loggedIn
+  const { loggedIn, setLoggedIn } = useContext(LoginContext);
 
   // States for the form
   const [username, setUsername] = useState("testuser");
@@ -26,7 +27,7 @@ export default function LoginForm() {
     e.preventDefault();
 
     try {
-      const response = await axios({
+      await axios({
         method: "POST",
         url: "/authentication/login",
         withCredentials: true,
