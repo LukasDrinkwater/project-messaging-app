@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
-import { LoginContext } from "../../../App";
+// import { LoginContext } from "../../../App";
 
 import groupsIcon from "../../../assets/header_and_footer/groups.png";
 import messagesIcon from "../../../assets/header_and_footer/message.png";
 import contactsIcon from "../../../assets/header_and_footer/contacts.png";
 
 export default function Footer() {
-  const [loggedIn, setLoggedIn] = useContext(LoginContext);
+  // const [loggedIn, setLoggedIn] = useContext(LoginContext);
 
   return (
     <>
