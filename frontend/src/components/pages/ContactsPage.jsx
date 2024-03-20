@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-// import { NavLink, Link } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import LoginContext from "../context/LoginContext";
 import "./ContactPage.css";
-
 import axios from "axios";
 
 // Import components
@@ -12,6 +11,9 @@ export default function ContactsPage() {
   const [addContact, setAddContact] = useState(false);
   const [allContacts, setAllContacts] = useState([]);
   const [usersChats, setUsersChats] = useState([]);
+
+  // Destructure the state and set state for loggedIn
+  // const { loggedIn, setLoggedIn } = useContext(LoginContext);
 
   useEffect(() => {
     // console.log("trigger");
