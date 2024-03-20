@@ -1,19 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-import axios from "axios";
+import App from "./App";
+
 import "./index.css";
 
 // Extra react imports
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+// import { LoginContext } from "./App.jsx";
 
-// Set some default axios properties
-axios.defaults.baseURL = "http://localhost:3000";
+// Imports for context and protected routes
+import { LoginProvider } from "./components/context/LoginContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <LoginProvider>
+        <Routes>
+          {/* * is a catch all */}
+          <Route path="/*" element={<App />} />
+        </Routes>
+      </LoginProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
