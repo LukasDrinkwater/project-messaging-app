@@ -23,6 +23,8 @@ import LandingPage from "./components/pages/LandingPage";
 
 // Create context
 // export const LoginContext = createContext();
+// Import auth component for protected routes
+import RequireAuth from "./components/single-components/single_use/RequireAuth.jsx";
 
 function App() {
   // const [loggedIn, setLoggedIn] = useState(false);
@@ -64,18 +66,22 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             {/* Public routes */}
-            <Route path="/" element={LandingPage}></Route>
-            <Route path="/login" element={LoginPage} />
-            <Route path="/signup" element={SignUpPage} />
+            <Route path="/landing-page" element={<LandingPage />}></Route>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
 
             {/* Protected routes */}
-            <Route path="/messages" element={MessagesPage} />
-            <Route path="/messages/:chatId" element={ChatPage} />
-            <Route path="/contacts" element={ContactsPage} />
-            <Route path="/groups" element={GroupPage} />
-            <Route path="/groups/:groupId" element={GroupChatPage} />
-            <Route path="/groups/:groupId/edit" element={GroupEditPage} />
-
+            {/* The routes go through <RequireAuth /> and the element being called is
+            passed through the <Outlet /> component inside RequireAuth
+            */}
+            <Route element={<RequireAuth />}>
+              <Route path="/messages" element={<MessagesPage />} />
+              <Route path="/messages/:chatId" element={<ChatPage />} />
+              <Route path="/contacts" element={<ContactsPage />} />
+              <Route path="/groups" element={<GroupPage />} />
+              <Route path="/groups/:groupId" element={<GroupChatPage />} />
+              <Route path="/groups/:groupId/edit" element={<GroupEditPage />} />
+            </Route>
             {/* Catch all */}
           </Route>
         </Routes>
