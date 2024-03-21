@@ -1,15 +1,20 @@
 import { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import axios from "axios";
 
 import LoginContext from "../../context/LoginContext";
 
 export default function LoginForm() {
-  const navigate = useNavigate();
-
   // Logged in state
   // Destructure the state and set state for loggedIn
   const { loggedIn, setLoggedIn } = useContext(LoginContext);
+
+  // Navigation
+  const navigate = useNavigate();
+  const location = useLocation();
+  // from is where the user just came from. I.e where they were when they got sent
+  // to the login page
+  const from = location.state?.from?.pathname || "/";
 
   // States for the form
   const [username, setUsername] = useState("testuser");
@@ -41,7 +46,9 @@ export default function LoginForm() {
       });
 
       setLoggedIn(true);
-      navigate("/messages");
+
+      //
+      navigate(from, { replace: true });
     } catch (error) {
       console.log("Error logging in:", error);
     }
