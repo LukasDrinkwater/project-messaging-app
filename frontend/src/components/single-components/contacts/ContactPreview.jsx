@@ -59,26 +59,28 @@ export default function ContactPreview({ contact, usersChats }) {
   return (
     <>
       <div className="contactPreview">
-        <div className="profilePicture">
-          <img src="" alt="" />
-        </div>
-        <div className="contactPreviewName">
-          <p>{contact.username}</p>
-        </div>
-        <div className="contactPreviewMessage">
-          {/* <p>{contact.messages.content}</p> */}
-          {/* need to update so it gets the lastMessage from the chat */}
-          <p>{currentContactChat.lastMessageFormatted}</p>
-        </div>
-        {currentContactChatExist ? (
-          <Link to={`/messages/${currentContactChatId}`}>Go to chat</Link>
-        ) : (
-          <div className="startChatButton">
-            <button onClick={startNewChat}>Start Chat</button>
+        <div className="profilePicContainer">
+          <div className="profilePicture">
+            <img src={contact.profilePic} alt="" />
           </div>
-        )}
-        <div className="removeContactButton">
-          <button onClick={handleRemoveContact}>Remove contact</button>
+        </div>
+        <div className="contactDetailContainer">
+          <div className="contactPreviewName">
+            <p>{contact.username}</p>
+          </div>
+          <div className="contactPreviewMessage">
+            <p>{currentContactChat?.lastMessageFormatted}</p>
+          </div>
+          {currentContactChatExist ? (
+            <Link to={`/messages/${currentContactChatId}`}>Go to chat</Link>
+          ) : (
+            <div className="startChatButton">
+              <button onClick={startNewChat}>Start Chat</button>
+            </div>
+          )}
+          <div className="removeContactButton">
+            <button onClick={handleRemoveContact}>Remove contact</button>
+          </div>
         </div>
       </div>
     </>
