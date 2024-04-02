@@ -5,13 +5,15 @@
 }
 
 .contactPreview {
+  display: flex;
   border: 3px solid #0047a6;
   border-radius: 10px;
   margin: 10px;
   padding: 5px 0 5px 0;
   transition: 0.3s;
-
+  max-height: 300px;
   max-width: 500px;
+  align-items: center;
 }
 
 .contactPreviewName {
@@ -24,10 +26,21 @@
   margin: 0 0 5px 0;
 }
 
+.profilePicContainer {
+  max-width: 150px; /* Limit the width of the container */
+}
+.profilePicContainer img {
+  max-width: 100%; /* Ensures the image doesn't exceed its container */
+  height: auto; /* Maintains aspect ratio */
+}
+
 .contactPreview a {
   text-decoration: none;
   color: black;
-  /* margin: 0 0 10px 0; */
+}
+
+.contactDetailContainer button {
+  margin: 10px 10px 0 10px;
 }
 
 .contactPreview a:hover {
