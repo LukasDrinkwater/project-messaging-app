@@ -1,5 +1,5 @@
-import { useEffect, useState, useContext } from "react";
-import LoginContext from "../context/LoginContext";
+import { useEffect, useState } from "react";
+
 import "./ContactPage.css";
 import axios from "axios";
 
@@ -12,12 +12,7 @@ export default function ContactsPage() {
   const [allContacts, setAllContacts] = useState([]);
   const [usersChats, setUsersChats] = useState([]);
 
-  // Destructure the state and set state for loggedIn
-  // const { loggedIn, setLoggedIn } = useContext(LoginContext);
-
   useEffect(() => {
-    // console.log("trigger");
-
     const getAllContacts = async () => {
       try {
         const response = await axios({
@@ -78,9 +73,3 @@ export default function ContactsPage() {
     </>
   );
 }
-// {
-//   allContacts &&
-//     allContacts.map((contact) => (
-//       <ContactPreview key={contact.id} contact={contact} />
-//     ));
-// }
