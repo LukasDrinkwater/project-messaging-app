@@ -13,7 +13,7 @@ export default function Header() {
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios({
+      await axios({
         method: "POST",
         url: "/authentication/logout",
         withCredentials: true,
@@ -44,14 +44,18 @@ export default function Header() {
               </button>
             </div>
           ) : (
-            <div className="loginButton">
-              <NavLink to="/login">Login</NavLink>
-            </div>
+            <NavLink to="/login">
+              <div className="loginButton">
+                <p>Login</p>
+              </div>
+            </NavLink>
           )}
           {!loggedIn && (
-            <div className="signupNav">
-              <NavLink to="/signup">Signup</NavLink>
-            </div>
+            <NavLink to="/signup">
+              <div className="signupNav">
+                <p>Signup</p>
+              </div>
+            </NavLink>
           )}
         </div>
       </div>
