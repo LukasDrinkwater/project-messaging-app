@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
@@ -7,7 +7,7 @@ import LoginContext from "../../context/LoginContext";
 export default function LoginForm() {
   // Logged in state
   // Destructure the state and set state for loggedIn
-  const { loggedIn, setLoggedIn } = useContext(LoginContext);
+  const { setLoggedIn } = useContext(LoginContext);
 
   // Navigation
   const navigate = useNavigate();
@@ -19,14 +19,6 @@ export default function LoginForm() {
   // States for the form
   const [username, setUsername] = useState("testuser");
   const [password, setPassword] = useState("12345");
-
-  // Check if user is already logged in and then redirect
-  useEffect(() => {
-    if (loggedIn === true) {
-      // Navigate to somewhere else if they are logged in already
-      navigate("/");
-    }
-  });
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
