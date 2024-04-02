@@ -20,6 +20,7 @@ import GroupPage from "./components/pages/GroupPage";
 import GroupChatPage from "./components/pages/GroupChatPage";
 import GroupEditPage from "./components/pages/GroupEditPage";
 import LandingPage from "./components/pages/LandingPage";
+import EditProfilePage from "./components/pages/EditProfilePage.jsx";
 
 // Create context
 // export const LoginContext = createContext();
@@ -48,7 +49,7 @@ function App() {
         if (response.data.loggedIn === false) {
           setLoggedIn(false);
         } else {
-          // setLoggedIn(true);
+          setLoggedIn(true);
         }
       } catch (error) {
         console.log("Errors checking auth:", error);
@@ -78,6 +79,10 @@ function App() {
               <Route path="/messages" element={<MessagesPage />} />
               <Route path="/messages/:chatId" element={<ChatPage />} />
               <Route path="/contacts" element={<ContactsPage />} />
+              <Route
+                path="/contacts/edit-profile"
+                element={<EditProfilePage />}
+              />
               <Route path="/groups" element={<GroupPage />} />
               <Route path="/groups/:groupId" element={<GroupChatPage />} />
               <Route path="/groups/:groupId/edit" element={<GroupEditPage />} />
