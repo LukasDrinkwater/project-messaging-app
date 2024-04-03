@@ -12,6 +12,7 @@ const UserSchema = Schema(
     // chats: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chat" }],
     contacts: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     // groups: [{ type: mongoose.Schema.Types.ObjectId, ref: "Group" }],
+    profilePic: { type: String, ref: "Image" },
   },
   { timestamps: true, toJSON: { virtuals: true } }
 );
