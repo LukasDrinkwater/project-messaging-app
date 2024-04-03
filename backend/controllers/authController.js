@@ -37,22 +37,26 @@ exports.signup_post = [
 
   asnycHandler(async (req, res, next) => {
     const errors = validationResult(req);
-    // const errors = [];
 
     if (!errors.isEmpty()) {
       res.sendStatus(400);
       return;
     } else {
+      // Set up base default image
+      const baseUrl = `${req.protocol}://${req.get("host")}`;
+      const defaultImageUrl = `${baseUrl}/images/default.png`;
+
       // create a new user
       const newUser = new User({
         username: req.body.username,
         password: req.body.password,
         email: req.body.email,
+        profilePic: defaultImageUrl,
       });
       console.log("saving user");
       await newUser.save();
       console.log("user saved");
-      res.statusCode(200);
+      res.sendStatus(200);
     }
   }),
 ];
