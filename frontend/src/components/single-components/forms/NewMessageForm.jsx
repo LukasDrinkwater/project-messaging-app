@@ -8,6 +8,7 @@ export default function NewMessageForm({
 }) {
   const { chatId } = useParams();
   const [message, setMessage] = useState("");
+  const [image, setImage] = useState(null);
   // sender
   // receiver
   // group - not requried
@@ -15,15 +16,21 @@ export default function NewMessageForm({
 
   const handleNewMessageSubmit = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("content", message);
+    formData.append("chatId", chatId);
+    formData.append("image", image);
+
     try {
-      const response = await axios({
+      await axios({
         method: "POST",
         url: "/api/message/new-message",
         withCredentials: true,
-        data: {
-          content: message,
-          chatId: chatId,
+        headers: {
+          "Content-Type": "multipart/form-data", // Use multipart/form-data for file uploads
         },
+        data: formData,
       });
 
       // set newMessagPosted to opposite
@@ -46,6 +53,15 @@ export default function NewMessageForm({
               placeholder=""
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+            />
+          </div>
+          <div className="formGroup">
+            <label htmlFor="image">Add media.</label>
+            <input
+              type="file"
+              name="image"
+              id="image"
+              onChange={(e) => setImage(e.target.files[0])}
             />
           </div>
           <div className="formGroup">
