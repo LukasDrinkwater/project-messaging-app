@@ -8,6 +8,7 @@ export default function NewGroupMessageForm({
 }) {
   const { groupId } = useParams();
   const [message, setMessage] = useState("");
+  const [image, setImage] = useState(null);
 
   // sender
   // group
@@ -16,15 +17,21 @@ export default function NewGroupMessageForm({
   const handleNewGroupMessageSubmit = async (e) => {
     e.preventDefault();
 
+    // form data to allow image to also be sent because of multer
+    const formData = new FormData();
+    formData.append("content", message);
+    formData.append("groupId", groupId);
+    formData.append("image", image);
+
     try {
-      const response = await axios({
+      await axios({
         method: "POST",
         url: "/api/message/new-group-message",
         withCredentials: true,
-        data: {
-          content: message,
-          groupId: groupId,
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
+        data: formData,
       });
 
       setNewGroupMessagePosted(!newGroupMessagePosted);
@@ -47,6 +54,15 @@ export default function NewGroupMessageForm({
               placeholder=""
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+            />
+          </div>
+          <div className="formGroup">
+            <label htmlFor="image">Add media.</label>
+            <input
+              type="file"
+              name="image"
+              id="image"
+              onChange={(e) => setImage(e.target.files[0])}
             />
           </div>
           <div className="formGroup">
