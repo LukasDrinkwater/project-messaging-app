@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function UserProfile() {
-  const [setUserProfile] = useState("");
+  const [userProfile, setUserProfile] = useState("");
 
   useEffect(() => {
     const getUserProfile = async () => {
