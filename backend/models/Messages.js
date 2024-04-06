@@ -6,11 +6,7 @@ const Schema = mongoose.Schema;
 const MessageSchema = new Schema(
   {
     sender: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    // receiver: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "User",
-    //   required: false,
-    // },
+
     chat: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Chat",
@@ -21,7 +17,8 @@ const MessageSchema = new Schema(
       ref: "Group",
       required: false,
     },
-    content: { type: String, required: true },
+    content: { type: String },
+    file: { type: String },
   },
   { timestamps: true, toJSON: { virtuals: true } }
 );
