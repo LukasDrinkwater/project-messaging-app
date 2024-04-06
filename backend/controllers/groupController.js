@@ -22,7 +22,7 @@ exports.create_new_group_post = [
     } else {
       // Get current user and add them to the group
       const currentUser = await Users.findById(req.user.id).exec();
-      console.log(currentUser);
+
       const updatedGroupUsers = [...req.body.groupUsers, currentUser];
 
       // Create new group
@@ -31,7 +31,6 @@ exports.create_new_group_post = [
         users: updatedGroupUsers,
       });
 
-      console.log("saving group");
       await newGroup.save();
       res.status(201).json({ newGroup });
     }
@@ -52,8 +51,6 @@ exports.all_users_groups_get = asyncHandler(async (req, res, next) => {
 
 // GET specific group
 exports.get_specific_group_chat = asyncHandler(async (req, res, next) => {
-  // console.log(req.user.id);
-  // console.log(req.params.groupId);
   const userId = req.user.id;
   const groupId = req.params.groupId;
 
@@ -70,9 +67,6 @@ exports.get_specific_group_chat = asyncHandler(async (req, res, next) => {
       }) // $ne is not equal.
       .exec(),
   ]);
-
-  // console.log("groupChatMessages", groupChatMessages);
-  // console.log("groupChat", groupChat);
 
   if (groupChatMessages === null || groupChat === null) {
     res.status(204).send("group chat messages or groupChat not found.");
