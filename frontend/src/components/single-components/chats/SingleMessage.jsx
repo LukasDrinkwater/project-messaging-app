@@ -8,7 +8,6 @@ export default function SingleMessage({ message, userId }) {
     messageClass = "receiver";
   }
 
-  console.log(message);
   return (
     <>
       <div className={messageClass}>
