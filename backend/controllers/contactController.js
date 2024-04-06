@@ -99,20 +99,19 @@ exports.all_contacts_for_current_user_get = asyncHandler(
       res.sendStatus(204);
     }
     // Set up base default image
-    // const baseUrl = `${req.protocol}://${req.get("host")}`;
-    // const defaultImageUrl = `${baseUrl}/images/image.png`;
+    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    const defaultImageUrl = `${baseUrl}/images/image.png`;
 
     // map through contacts and assign defaultImageUrl to profilePic
     // if its blank.
 
-    // allContactsMapped = user.contacts.map((contact) => {
-    //   // Check if contact has a profilePic, if not, add defaultImageUrl instead
-    //   if (!contact.profilePic) {
-    //     contact.profilePic = defaultImageUrl;
-    //     console.log("true");
-    //   }
-    //   return contact;
-    // });
+    allContactsMapped = user.contacts.map((contact) => {
+      // Check if contact has a profilePic, if not, add defaultImageUrl instead
+      if (!contact.profilePic) {
+        contact.profilePic = defaultImageUrl;
+      }
+      return contact;
+    });
 
     res.json({ allContacts, usersChats });
   }
