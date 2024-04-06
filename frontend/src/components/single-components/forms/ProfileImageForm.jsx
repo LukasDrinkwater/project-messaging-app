@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function ProfileImageForm() {
-  const [setImage] = useState(null);
+  const [image, setImage] = useState(null);
 
   const handleAddImage = async (e) => {
     e.preventDefault();
