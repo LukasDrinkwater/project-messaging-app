@@ -8,6 +8,7 @@ export default function SingleMessage({ message, userId }) {
     messageClass = "receiver";
   }
 
+  console.log(message);
   return (
     <>
       <div className={messageClass}>
@@ -15,7 +16,11 @@ export default function SingleMessage({ message, userId }) {
         {message.sender.id !== userId && (
           <p className="messageUserName">{message.sender.username}</p>
         )}
-        <p className="messageContent">{message.content}</p>
+        {message.file ? (
+          <img src={message.file} alt="Image that the user has posted" />
+        ) : (
+          <p className="messageContent">{message.content}</p>
+        )}
         <p className="messageDateTime">{message.createdAtFormatted}</p>
       </div>
     </>
