@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { format } = require("date-fns");
 
 const Schema = mongoose.Schema;
 
@@ -13,7 +14,14 @@ const GroupSchema = new Schema(
 );
 
 GroupSchema.virtual("lastMessageFormatted").get(function () {
+  if (this.lastMessage.length > 30) {
+    return this.lastMessage.subString(0, 30) + "...";
+  }
   return this.lastMessage;
+});
+
+GroupSchema.virtual("updatedAtFormatted").get(function () {
+  return format(this.updatedAt, "dd/MM/yyyy HH:mm");
 });
 
 module.exports = mongoose.model("Group", GroupSchema);
