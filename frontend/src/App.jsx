@@ -25,7 +25,7 @@ import EditProfilePage from "./components/pages/EditProfilePage.jsx";
 // Create context
 // export const LoginContext = createContext();
 // Import auth component for protected routes
-import RequireAuth from "./components/single-components/single_use/RequireAuth.jsx";
+import RequireAuth from "./components/context/RequireAuth.jsx";
 
 function App() {
   // const [loggedIn, setLoggedIn] = useState(false);
