@@ -5,7 +5,7 @@ const LoginContext = createContext({});
 // destructure the children that are coming in.
 // Children reprisents the components that are inside the LoginProvider
 export const LoginProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(undefined);
 
   return (
     <LoginContext.Provider value={{ loggedIn, setLoggedIn }}>
