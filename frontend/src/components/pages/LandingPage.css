@@ -1,0 +1,28 @@
+.landingPageContainer {
+  /* align-items: center; */
+}
+
+.landingPageContainer p {
+  /* justify-self: center; */
+}
+
+.pContainer {
+  /* background-color: blue;
+  max-width: 400px;
+  height: auto; */
+}
+
+.landingPageContainer {
+  display: flex;
+  justify-content: center; /* Horizontally center the content */
+  align-items: center; /* Vertically center the content */
+  /* height: 100vh; Set the container's height to the full viewport height */
+  height: auto;
+  margin-top: 20px;
+}
+
+.pContainer {
+  max-width: 400px;
+  padding: 20px; /* Adding padding for better visual appearance */
+  text-align: center; /* Center-align the text */
+}
