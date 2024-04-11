@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "./MessagesPage.css";
+// import "./MessagesPage.css";
+import MessagesPageCss from "./MessagesPage.module.css";
 import { useEffect, useState } from "react";
 
 //Import components
@@ -33,8 +34,11 @@ export default function MessagesPage() {
 
   return (
     <>
-      <div className="messagePageContainer">
-        <div className="currentChats">
+      <div className={MessagesPageCss.messagePageContainer}>
+        {/* <div className="currentChats"> */}
+        <div
+          className={`${MessagesPageCss.currentChats} ${MessagesPageCss.addCursorPointer}`}
+        >
           {matchedChats.length > 0 ? (
             // map through chats to show a preview
             <>
@@ -50,7 +54,9 @@ export default function MessagesPage() {
             </>
           )}
         </div>
-        <div className="messageFeed">{/* map and display messages */}</div>
+        <div className={MessagesPageCss.messageFeed}>
+          {/* map and display messages */}
+        </div>
         <div className="newChatButton">
           <Link to={"/contacts"}>
             <button>Start new chat</button>
