@@ -3,6 +3,8 @@ const {
   disconnectMongoServer,
 } = require("../__testConfig__/mongoConfigTesting");
 const supertest = require("supertest");
+const session = require("express-session");
+require("dotenv").config();
 
 // Import models
 const Users = require("../models/Users");
@@ -17,81 +19,88 @@ const authRoutes = require("../routes/authRoutes");
 const request = require("supertest");
 const express = require("express");
 const app = express();
-const server = supertest.agent(app);
+// const server = supertest.agent(app);
 
 app.use(express.urlencoded({ extended: false }));
+const SECRET_STRING = process.env.SECRET_STRING;
+app.use(
+  session({ secret: SECRET_STRING, resave: false, saveUninitialized: true })
+);
 const passport = require("../strategies/passportConfig"); // Import Passport configuration file
+const { isThisHour } = require("date-fns");
 app.use(passport.session());
-// app.use(passport.initialize());
+app.use(passport.initialize());
 
 app.use("/api/chats", chatRoutes);
 app.use("/api/auth", authRoutes);
 
-// initializeMongoServer();
+initializeMongoServer();
 
-// let mongoServer;
+let newChat;
 
-// // Create an agent
-// const agent = supertest.agent(app);
+// Create an agent
+const agent = supertest.agent(app);
 
-// beforeAll(async () => {
-//   // initializeMongoServer();
-//   // mongoServer = await MongoMemoryServer.create();
-//   // const mongoUri = mongoServer.getUri();
+beforeAll(async () => {
+  // initializeMongoServer();
+  // mongoServer = await MongoMemoryServer.create();
+  // const mongoUri = mongoServer.getUri();
 
-//   // // Connect mongoose to the in-memory database
-//   // await mongoose.connect(mongoUri, {
-//   //   useNewUrlParser: true,
-//   //   useUnifiedTopology: true,
-//   // });
+  // // Connect mongoose to the in-memory database
+  // await mongoose.connect(mongoUri, {_
+  //   useNewUrlParser: true,
+  //   useUnifiedTopology: true,
+  // });
 
-//   const newUser = new Users({
-//     username: "user1",
-//     password: "12345",
-//     email: "user1@email.com",
-//     contacts: [],
-//   });
+  const newUser = new Users({
+    username: "user1",
+    password: "12345",
+    email: "user1@email.com",
+    contacts: [],
+  });
 
-//   const newUser2 = new Users({
-//     username: "user2",
-//     password: "12345",
-//     email: "user2@email.com",
-//     contacts: [],
-//   });
+  const newUser2 = new Users({
+    username: "user2",
+    password: "12345",
+    email: "user2@email.com",
+    contacts: [],
+  });
 
-//   newUser.contacts.push(newUser2._id);
-//   newUser2.contacts.push(newUser._id);
+  newUser.contacts.push(newUser2._id);
+  newUser2.contacts.push(newUser._id);
 
-//   await newUser.save();
-//   await newUser2.save();
+  await newUser.save();
+  await newUser2.save();
 
-//   const newChat = new Chats({
-//     users: [newUser._id, newUser2._id],
-//   });
+  newChat = new Chats({
+    users: [newUser._id, newUser2._id],
+  });
 
-//   const newMessage = new Messages({
-//     sender: newUser._id,
-//     chat: newChat._id,
-//     content: "message for testing",
-//   });
+  const newMessage = new Messages({
+    sender: newUser._id,
+    chat: newChat._id,
+    content: "message for testing",
+  });
 
-//   newMessage.chat = newChat._id;
+  newMessage.chat = newChat._id;
 
-//   await newChat.save();
-//   await newMessage.save();
+  await newChat.save();
+  await newMessage.save();
 
-//   // Setup cookie with supertest agent
+  // Setup cookie with supertest agent
 
-//   // await agent
-//   //   .post("/api/auth/login") // Replace with your login route
-//   //   .send({ username: "user1", password: "12345", id: newUser._id }) // Replace with valid credentials
-//   //   .expect(200);
-//   // done();
-// });
+  // await agent
+  //   .post("/api/auth/login") // Replace with your login route
+  //   .send({ username: "user1", password: "12345", id: newUser._id }) // Replace with valid credentials
+  //   .expect(200);
+  await agent
+    .post("/api/auth/login")
+    .send({ username: "user1", password: "12345" });
+});
 
-// afterAll(async () => {
-//   await disconnectMongoServer();
-// });
+afterAll(async () => {
+  await disconnectMongoServer();
+});
 
 // function to login
 const loginUser = () => {
@@ -118,35 +127,40 @@ test("test that the test route is working", (done) => {
 });
 
 // Test getting users chats
+// describe("GET all user chats and a specific chat", () => {
+//   it("login", loginUser());
+//   it("responds with json", (done) => {
+//     request(app)
+//       .get("/api/chats/all-users-chats")
+//       .expect("Content-Type", /json/)
+//       .expect((res) => {
+//         // check id the response have allChats
+//         if (!("allChats" in res.body)) {
+//           throw new Error("Response does not include allChats");
+//         }
+//       })
+//       .expect(200, done);
+//   });
+// });
+
 describe("GET all user chats and a specific chat", () => {
-  it("login", loginUser());
-  it("responds with json", (done) => {
-    request(app)
-      .get("/api/chats/all-users-chats")
-      .expect("Content-Type", /json/)
-      .expect((res) => {
-        // check id the response have allChats
-        if (!("allChats" in res.body)) {
-          throw new Error("Response does not include allChats");
-        }
-      })
-      .expect(200, done);
+  // it("responds with json", async () => {
+  //   const res = await agent.get("/api/chats/all-users-chats");
+  //   // expect(res.status).toBe(200);
+  //   // console.log(res.body);
+  //   expect(res.body).toHaveProperty("allChats");
+  // });
+  // it("responds with a specific chat", async () => {
+  //   const res = await agent.get(`/api/chats/${newChat._id.toString()}`);
+  //   // console.log("chat id", newChat._id.toString());
+  //   console.log(res.body);
+  //   expect(res.body).toHaveProperty("chatMessages");
+  //   // expect(res.body).toHaveProperty("userId");
+  //   // expect(res.body).toHaveProperty("contect");
+  // });
+  it("Test check if already logged in", async () => {
+    const res = await agent.get("/api/auth/check-auth").expect(200);
+
+    console.log(res.body);
   });
 });
-
-// const isIncludeField = function (fieldName) {
-//   return function (res) {
-//     res.body.should.have.property(fieldName);
-//   };
-// }
-
-// describe('GET category', function () {
-//   it('response w/ only injury returned', function () {
-//     request('endpoint')
-//       .get('path')
-//       .set('header', 'token')
-//       .expect(200)
-//       .expect(isIncludeField('Baseball')) //
-//       .end(done); // call done callback
-//   })
-// });
