@@ -8,9 +8,6 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 // Requirements for passport
 const session = require("express-session");
-// const passport = require("passport");
-// const LocalStrategy = require("passport-local");
-const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 
 // Import routes
