@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 // Requirements for passport
 const session = require("express-session");
-const passport = require("passport");
+// const passport = require("passport");
 // const LocalStrategy = require("passport-local");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
@@ -27,16 +27,18 @@ const User = require("./models/Users");
 const app = express();
 const port = process.env.PORT || 3000; // Set your desired port or use a default (e.g., 3000)
 
+// use the require mongoConfig when implenting testing.
+require("./mongoConfig");
 // Setup mongoose mongoDB connection
-const mongoose = require("mongoose");
-mongoose.set("strictQuery", false);
-const mongoDB = process.env.MONGODB_STRING;
+// const mongoose = require("mongoose");
+// mongoose.set("strictQuery", false);
+// const mongoDB = process.env.MONGODB_STRING;
 
-main().catch((error) => console.log(error));
-async function main() {
-  await mongoose.connect(mongoDB);
-}
-console.log(mongoose.connection.readyState);
+// main().catch((error) => console.log(error));
+// async function main() {
+//   await mongoose.connect(mongoDB);
+// }
+// console.log(mongoose.connection.readyState);
 
 // Middleware setup
 app.use(logger("dev"));
@@ -60,36 +62,38 @@ app.use(
 // Middleware setup for passport
 // Passport local strategy
 // This function is what will be called when using passport.authenticate()
-passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    try {
-      const user = await User.findOne({ username: username });
-      if (!user) {
-        return done(null, false, { message: "Incorrect username" });
-      }
-      const match = await bcrypt.compare(password, user.password);
-      if (!match) {
-        // passwords do not match!
-        return done(null, false, { message: "Incorrect password" });
-      }
-      return done(null, user);
-    } catch (err) {
-      return done(err);
-    }
-  })
-);
-// sessions and serialization
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err);
-  }
-});
+const passport = require("./strategies/passportConfig"); // Import Passport configuration file
+
+// passport.use(
+//   new LocalStrategy(async (username, password, done) => {
+//     try {
+//       const user = await User.findOne({ username: username });
+//       if (!user) {
+//         return done(null, false, { message: "Incorrect username" });
+//       }
+//       const match = await bcrypt.compare(password, user.password);
+//       if (!match) {
+//         // passwords do not match!
+//         return done(null, false, { message: "Incorrect password" });
+//       }
+//       return done(null, user);
+//     } catch (err) {
+//       return done(err);
+//     }
+//   })
+// );
+// // sessions and serialization
+// passport.serializeUser((user, done) => {
+//   done(null, user.id);
+// });
+// passport.deserializeUser(async (id, done) => {
+//   try {
+//     const user = await User.findById(id);
+//     done(null, user);
+//   } catch (err) {
+//     done(err);
+//   }
+// });
 app.use(express.urlencoded({ extended: false })); //set to true for JSON
 app.use(passport.session());
 app.use(passport.initialize());
