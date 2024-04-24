@@ -5,6 +5,7 @@ const {
 const supertest = require("supertest");
 const session = require("express-session");
 require("dotenv").config();
+const cookieParser = require("cookie-parser");
 
 // Import models
 const Users = require("../models/Users");
@@ -19,6 +20,8 @@ const authRoutes = require("../routes/authRoutes");
 const request = require("supertest");
 const express = require("express");
 const app = express();
+app.use(express.json());
+app.use(cookieParser());
 // const server = supertest.agent(app);
 
 app.use(express.urlencoded({ extended: false }));
@@ -144,12 +147,12 @@ test("test that the test route is working", (done) => {
 // });
 
 describe("GET all user chats and a specific chat", () => {
-  // it("responds with json", async () => {
-  //   const res = await agent.get("/api/chats/all-users-chats");
-  //   // expect(res.status).toBe(200);
-  //   // console.log(res.body);
-  //   expect(res.body).toHaveProperty("allChats");
-  // });
+  it("responds with json", async () => {
+    const res = await agent.get("/api/chats/all-users-chats");
+    // expect(res.status).toBe(200);
+    console.log(res.body);
+    expect(res.body).toHaveProperty("allChats");
+  });
   // it("responds with a specific chat", async () => {
   //   const res = await agent.get(`/api/chats/${newChat._id.toString()}`);
   //   // console.log("chat id", newChat._id.toString());
@@ -161,6 +164,6 @@ describe("GET all user chats and a specific chat", () => {
   it("Test check if already logged in", async () => {
     const res = await agent.get("/api/auth/check-auth").expect(200);
 
-    console.log(res.body);
+    // console.log(res.body);
   });
 });
