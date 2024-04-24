@@ -55,41 +55,44 @@ beforeAll(async () => {
   //   useUnifiedTopology: true,
   // });
 
-  const newUser = new Users({
-    username: "user1",
-    password: "12345",
-    email: "user1@email.com",
-    contacts: [],
-  });
+  try {
+    const newUser = new Users({
+      username: "user1",
+      password: "12345",
+      email: "user1@email.com",
+      contacts: [],
+    });
 
-  const newUser2 = new Users({
-    username: "user2",
-    password: "12345",
-    email: "user2@email.com",
-    contacts: [],
-  });
+    const newUser2 = new Users({
+      username: "user2",
+      password: "12345",
+      email: "user2@email.com",
+      contacts: [],
+    });
 
-  newUser.contacts.push(newUser2._id);
-  newUser2.contacts.push(newUser._id);
+    newUser.contacts.push(newUser2._id);
+    newUser2.contacts.push(newUser._id);
 
-  await newUser.save();
-  await newUser2.save();
+    await newUser.save();
+    await newUser2.save();
 
-  newChat = new Chats({
-    users: [newUser._id, newUser2._id],
-  });
+    newChat = new Chats({
+      users: [newUser._id, newUser2._id],
+    });
 
-  const newMessage = new Messages({
-    sender: newUser._id,
-    chat: newChat._id,
-    content: "message for testing",
-  });
+    const newMessage = new Messages({
+      sender: newUser._id,
+      chat: newChat._id,
+      content: "message for testing",
+    });
 
-  newMessage.chat = newChat._id;
+    newMessage.chat = newChat._id;
 
-  await newChat.save();
-  await newMessage.save();
-
+    await newChat.save();
+    await newMessage.save();
+  } catch (err) {
+    console.log(err);
+  }
   // Setup cookie with supertest agent
 
   // await agent
