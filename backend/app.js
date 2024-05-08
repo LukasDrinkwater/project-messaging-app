@@ -27,32 +27,30 @@ const port = process.env.PORT || 3000; // Set your desired port or use a default
 // use the require mongoConfig when implenting testing.
 require("./mongoConfig");
 // Setup mongoose mongoDB connection
-// const mongoose = require("mongoose");
-// mongoose.set("strictQuery", false);
-// const mongoDB = process.env.MONGODB_STRING;
-
-// main().catch((error) => console.log(error));
-// async function main() {
-//   await mongoose.connect(mongoDB);
-// }
-// console.log(mongoose.connection.readyState);
+// For testing it has been moved into the mongoConfig.js file
+// So it can be used for the mongodb-memory-server
 
 // Middleware setup
 app.use(logger("dev"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(
-  //cors is needed to allow requests from the React front end
-  cors({
-    // origin: ["http://localhost:5173", "http://localhost:5000"],
-    origin: "*",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-    optionsSuccessStatus: 200,
-  })
-);
+const corsOptions = {
+  origin: "*",
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
+// app.use(
+//   //cors is needed to allow requests from the React front end
+//   cors({
+//     // origin: ["http://localhost:5173", "http://localhost:5000"],
+//     origin: "*",
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     credentials: true,
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//     optionsSuccessStatus: 200,
+//   })
+// );
 const SECRET_STRING = process.env.SECRET_STRING;
 app.use(
   session({ secret: SECRET_STRING, resave: false, saveUninitialized: true })
