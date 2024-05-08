@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 // Requirements for passport
 const session = require("express-session");
+const MemoryStore = require("memorystore")(session);
 const bcrypt = require("bcryptjs");
 
 // Import routes
@@ -53,7 +54,16 @@ app.use(cors(corsOptions));
 // );
 const SECRET_STRING = process.env.SECRET_STRING;
 app.use(
-  session({ secret: SECRET_STRING, resave: false, saveUninitialized: true })
+  // session({ secret: SECRET_STRING, resave: false, saveUninitialized: true })
+  session({
+    secret: SECRET_STRING,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+      checkPeriod: 86400000,
+    }),
+  })
 );
 
 // Middleware setup for passport
