@@ -23,7 +23,7 @@ const groupRouter = require("./routes/groupRoutes");
 const User = require("./models/Users");
 
 const app = express();
-const port = process.env.PORT || 3000; // Set your desired port or use a default (e.g., 3000)
+const port = process.env.PORT || 3000;
 
 // use the require mongoConfig when implenting testing.
 require("./mongoConfig");
@@ -37,7 +37,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 const corsOptions = {
-  // origin: "*",
   origin: [
     "http://localhost:5173",
     "http://localhost:5000",
@@ -52,8 +51,8 @@ app.use(cors(corsOptions));
 // app.use(
 //   //cors is needed to allow requests from the React front end
 //   cors({
-//     // origin: ["http://localhost:5173", "http://localhost:5000"],
-//     origin: "*",
+//     origin: ["http://localhost:5173", "http://localhost:5000"],
+//     // origin: "*",
 //     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 //     credentials: true,
 //     allowedHeaders: ["Content-Type", "Authorization"],
@@ -62,7 +61,6 @@ app.use(cors(corsOptions));
 // );
 const SECRET_STRING = process.env.SECRET_STRING;
 app.use(
-  // session({ secret: SECRET_STRING, resave: false, saveUninitialized: true })
   session({
     secret: SECRET_STRING,
     resave: false,
@@ -131,10 +129,9 @@ app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  // res.render("error");
+  console.log("ERROR", err);
+  // need to respond with the error
+  res.status(err.status || 500).json(err);
 });
 
 const server = app.listen(port, () => {
