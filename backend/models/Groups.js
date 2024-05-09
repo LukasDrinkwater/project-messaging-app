@@ -22,7 +22,6 @@ GroupSchema.virtual("lastMessageFormatted").get(function () {
   } else {
     return "No last message";
   }
-  null;
 });
 
 GroupSchema.virtual("updatedAtFormatted").get(function () {
