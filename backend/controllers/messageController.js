@@ -37,7 +37,7 @@ exports.new_message_post = [
 
     // Validate input
     if (!errors.isEmpty()) {
-      res.sendStatus(400);
+      res.sendStatus(400).json(errors);
       return;
     }
 
@@ -120,18 +120,20 @@ exports.new_group_message_post = [
 
     // Get the form data from the req
     const groupId = req.body.groupId;
-    let cloudinaryId = null;
+    let cloudinaryId = "";
 
     // Validate input
     if (!errors.isEmpty()) {
-      return res.sendStatus(400);
+      return res.sendStatus(400).json(errors);
     }
 
     try {
       // Get the group and check if it finds it
       const group = await Groups.findById(groupId).exec();
       if (group === null) {
-        return res.sendStatus(400);
+        return res
+          .sendStatus(400)
+          .json({ error: "Cannot find group to add message to." });
       }
 
       // If there is an image attached
@@ -159,7 +161,7 @@ exports.new_group_message_post = [
         sender: req.user.id,
         content: req.body.content,
         group: groupId,
-        file: clouninaryId,
+        file: cloudinaryId,
       });
       // Save new message
       await newMessage.save();
@@ -183,7 +185,7 @@ exports.new_group_message_post = [
       // last message was updated
       res.sendStatus(201);
     } catch (error) {
-      res.status(204).json({ error: "Could not find gorup to update" });
+      res.status(404).json({ error: "Could not find gorup to update", error });
       return;
     }
   }),
