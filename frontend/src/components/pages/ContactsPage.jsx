@@ -23,7 +23,6 @@ export default function ContactsPage() {
             "Content-Type": "application/json",
           },
         });
-
         setAllContacts(response.data.allContacts);
         setUsersChats(response.data.usersChats);
       } catch (error) {
