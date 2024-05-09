@@ -14,10 +14,14 @@ const GroupSchema = new Schema(
 );
 
 GroupSchema.virtual("lastMessageFormatted").get(function () {
-  if (this.lastMessage.length > 30) {
-    return this.lastMessage.subString(0, 30) + "...";
+  if (this.lastMessage) {
+    if (this.lastMessage.length > 30) {
+      return this.lastMessage.substring(0, 30) + "...";
+    }
+    return this.lastMessage;
+  } else {
+    return "No last message";
   }
-  return this.lastMessage;
 });
 
 GroupSchema.virtual("updatedAtFormatted").get(function () {
